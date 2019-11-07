@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -35,5 +38,28 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * @param Request $request
+     * mi custom login
+     */
+    public function login(Request $request)
+    {
+        if (Auth::attempt(array('email' => $request->email, 'password' => $request->password))){
+            //return redirect(session('links')[2])->withInput()->withErrors();
+            return Redirect::route('categories');
+
+        }else {
+            return Redirect::back();
+        }
+
+    }
+
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return Redirect::back();
     }
 }

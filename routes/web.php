@@ -40,15 +40,6 @@ Route::get('/products/{product}','ProductController@viewProduct')->name('viewPro
 
 
 
-//login
-/*
-Route::get('/category',function (){
-    $Allcategory = category::all()->where('category_id',0);// whtout pagination
-    $category = category::where('category_id',0)->paginate(1);
-    return view('user.masterUser',compact('category','Allcategory'));
-});
-*/
-
 
 
 Auth::routes();

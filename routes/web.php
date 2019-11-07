@@ -11,6 +11,46 @@
 |
 */
 
+use App\category;
+
 Route::get('/', function () {
-    return view('admin');
+    return view('admin.masterAdmin');
+})->name('home');
+
+Route::get('/tes',function (){
+    return view('user.categoryPublic');
 });
+
+Route::get('/category','CategoryController@viewCategory')->name('categories');
+
+/**
+ * applay search for a specific data API
+ */
+
+Route::get('/category/search/price/{category}/{price}' , "CategoryController@searchPrice");
+
+/**
+ * applay a ajax for get element in SPA
+ */
+Route::get('/category/{category}','CategoryController@singleCategory')->name('singleCategory');
+Route::get('/category/{category}/products','CategoryController@singleCategoryProducts')->name('singleCategoryProducts');
+
+
+Route::get('/products/{product}','ProductController@viewProduct')->name('viewProduct');
+
+
+
+//login
+/*
+Route::get('/category',function (){
+    $Allcategory = category::all()->where('category_id',0);// whtout pagination
+    $category = category::where('category_id',0)->paginate(1);
+    return view('user.masterUser',compact('category','Allcategory'));
+});
+*/
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

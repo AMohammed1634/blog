@@ -54,7 +54,12 @@ function BuildHTMLContent(json) {
             superCategory = false;
             idCategory = json.id;
             let products = (this.response+'');
-            products = JSON.parse(products).data;
+            //alert(products.valid);
+            products = JSON.parse(products);
+            let valid = (products.valid);
+            let userID = products.userID;
+
+            products = products.data;
             //root.innerHTML+=products[0].name;
             //console.log(products[0].name)
 
@@ -101,17 +106,51 @@ function BuildHTMLContent(json) {
                     ''+
                     '\n' +
                     '<h5 class="product_name"><a href="http://127.0.0.1:8000/products/'+products[i].id+'">'+products[i].name+'</a></h5>\n' +
-                    '<div class="product_price">\n' +
-                    ((products[i].discounted_price ==0) ? (products[i].price):products[i].discounted_price +"<span>"+products[i].price+"</span>" )+
+                    '<div class="product_price">\n$' +
+                    ((products[i].discounted_price ==0) ? (products[i].price):products[i].discounted_price +"<span>$"+products[i].price+"</span>" )+
                     '\n' +
                     '                                                            </div>\n' +
                     '                                                        </div>'+
                     '</div>'+
-                    '<div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>'+
+                    '<div class="red_button add_to_cart_button"><a class="addToChart" href="'+(valid==true ? "http://127.0.0.1:8000/products/"+products[i].id+"/addToChart/"+userID:'asd1')  +'">add to cart</a></div>'+
                     '</div>';
             }
             root.innerHTML+= strStart + str + strEnd;
             /**/
+
+            var chartList = document.getElementsByClassName('addToChart');
+            for (let i=0;i<chartList.length;i++){
+                chartList[i].addEventListener('click',function (ev) {
+                    ev.preventDefault();
+                    let userID,productID;
+                    let x = chartList[i].getAttribute('id')+""; //user:9,product:59
+                    let index = x.indexOf(',');
+                    userID = x.substr(5,index-5);
+                    productID = x.substr(index+9,x.length-index-9);
+                    // alert(productID +" "+ userID);
+                    // console.log(ev.target.getAttribute('href'));
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            let json = JSON.parse( this.responseText);
+                            console.log(json[1]);
+                            console.log(this.responseText);
+                            console.log(json[0]);
+                            /**
+                             * add an alert Message to display status
+                             */
+                            if(json[0] != "msg"){
+                                document.getElementById('checkout_items').innerText = json[0];
+                            }else {
+                                alert('This Item Is Alredy Added to your list ');
+                            }
+
+                        }
+                    };
+                    xhttp.open("GET",ev.target.getAttribute('href') , true);
+                    xhttp.send();
+                });
+            }
         }
     };
     xhttp.open("GET", "http://127.0.0.1:8000/category/"+json.id+"/products", true);
@@ -158,6 +197,47 @@ filter.onclick = function (ev) {
      */
 
 }
+
+
+var chartList = document.getElementsByClassName('addToChart');
+for (let i=0;i<chartList.length;i++){
+    chartList[i].addEventListener('click',function (ev) {
+        ev.preventDefault();
+        let userID,productID;
+        let x = chartList[i].getAttribute('id')+""; //user:9,product:59
+        let index = x.indexOf(',');
+        userID = x.substr(5,index-5);
+        productID = x.substr(index+9,x.length-index-9);
+        //alert(productID);
+        callAPIAddToChart(userID,productID)
+    });
+}
+function callAPIAddToChart(userID,productID){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let json = JSON.parse( this.responseText);
+            console.log(json[1]);
+            console.log(this.responseText);
+            console.log(json[0]);
+            /**
+             * add an alert Message to display status
+             */
+            if(json[0] != "msg"){
+                document.getElementById('checkout_items').innerText = json[0];
+            }else {
+                alert('This Item Is Alredy Added to your list ');
+            }
+
+        }
+    };
+    xhttp.open("GET", 'http://127.0.0.1:8000/products/'+productID+'/addToChart/'+userID, true);
+    xhttp.send();
+}
+
+
+
+
 
 
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class shoppingCart extends Model
 {
+    protected $guarded = [];
     //
     public function users(){
         return $this->belongsTo('App\User','users_id','id');

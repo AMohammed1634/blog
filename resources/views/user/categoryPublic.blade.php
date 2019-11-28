@@ -211,7 +211,18 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                                                    <div class="red_button add_to_cart_button">
+                                                        @if(\Illuminate\Support\Facades\Auth::check())
+                                                            <a href='/products/{{$subCategory->products->last()->id}}/addToChart/{{\Illuminate\Support\Facades\Auth::user()->id}}'
+                                                                id="user:{{\Illuminate\Support\Facades\Auth::user()->id}},product:{{$subCategory->products->last()->id}}" class="addToChart">
+                                                                add to cart
+                                                            </a>
+                                                        @else
+                                                            <a href='{{route('login')}}'>
+                                                                add to cart
+                                                            </a>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             @endforeach
 

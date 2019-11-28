@@ -17,7 +17,7 @@
         @yield('links')
         <style>
             .account_selection li a{
-                display: inline;جداول وال
+                display: inline;
             }
         </style>
     </head>
@@ -130,10 +130,17 @@
                                 <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                                 <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 <li class="checkout">
-                                    <a href="#">
-                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                        <span id="checkout_items" class="checkout_items">2</span>
-                                    </a>
+                                    @if(\Illuminate\Support\Facades\Auth::check())
+                                        <a href="{{route('view-cart')}}">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            <span id="checkout_items" class="checkout_items">{{\Illuminate\Support\Facades\Auth::user()->shoppingCart->count()}}</span>
+                                        </a>
+                                    @else
+                                        <a href="#">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+{{--                                            <span id="checkout_items" class="checkout_items">2</span>--}}
+                                        </a>
+                                    @endif
                                 </li>
                             </ul>
                             <div class="hamburger_container">

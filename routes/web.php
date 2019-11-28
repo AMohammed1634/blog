@@ -15,7 +15,7 @@ use App\category;
 
 Route::get('/', function () {
     return view('admin.masterAdmin');
-})->name('home');
+})->name('home');//->middleware(\App\Http\Middleware\LoginMidelware::class);
 
 Route::get('/tes',function (){
     return view('user.categoryPublic');
@@ -38,10 +38,23 @@ Route::get('/category/{category}/products','CategoryController@singleCategoryPro
 
 Route::get('/products/{product}','ProductController@viewProduct')->name('viewProduct');
 
+Route::get('/products/design/{product}','ProductController@getDesignView')->name('getDesignView');
 
+Route::get('/products/{product}/addToChart/{user}','ShoppingCartController@addToChart')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('addToChart');
+//"{{route('viewProduct',$subCategory->products->last()->id)}}"
 
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+/**
+ * view shopping carts process
+ */
+Route::get('/view-cart','ShoppingCartController@view_cart')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('view-cart');
+
+
+

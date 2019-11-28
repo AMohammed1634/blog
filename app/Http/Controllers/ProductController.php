@@ -12,4 +12,8 @@ class ProductController extends Controller
         return view('user.singleProduct',compact('product'));
         return $product;
     }
+
+    public function getDesignView(product $product){
+        return $product;
+    }
 }

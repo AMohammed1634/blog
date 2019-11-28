@@ -22,11 +22,19 @@ class CategoryController extends Controller
         return $category;
     }
     public function singleCategoryProducts(category $category){
+        $valid = false;
+        if(auth()->check()){
+            $valid= true;
+        }
         $response = [
+            'valid' => $valid,
+
+            'userID' => auth()->user()->id,
 
             'success' => true,
 
-            'data'    => $category->products
+            'data'    => $category->products ,
+            'isLogin' => auth()->check()
 
         ];
 

@@ -1,0 +1,53 @@
+.row-content{
+    height: 590px;
+}
+
+.design-area{
+    background-image: url("/customization/grid.jpg");
+    height: 100%;
+    background-size: cover;
+}
+.row-content .img-container{
+    margin:20px ;
+    width: 500px;
+    height: 510px;
+}
+.myRight{
+    text-align: center;
+    background-color: #292C31;
+    color: #EFF2F7;
+}
+.layer{
+    padding: 17px 10px;
+    background-color: #25282C;
+    font-size: 25px;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+    ;
+}
+.ro{
+    width: 100%;
+    position: relative;
+    top: -8px;
+}
+.col-lg-2{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.layers-content{
+    padding: 15px;
+
+
+}
+.upload{
+    border: 2px solid #2B3075;
+    height: 77px;
+    /*cursor: pointer;*/
+}
+.layers-content i{
+    margin-top: 31px;
+}
+
+.droppable-container{
+    border: 2px solid #2B3075;
+}

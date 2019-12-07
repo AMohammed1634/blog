@@ -201,7 +201,7 @@
                                                         <i class="fa fa-star" aria-hidden="true"></i>
                                                     </li>
                                                 @endfor
-                                                @for($i=$review->rating;$i<=5;$i++)
+                                                @for($i=$review->rating;$i<5;$i++)
                                                     <li>
                                                         <i class="fa fa-star-o" aria-hidden="true"></i>
                                                     </li>
@@ -212,7 +212,7 @@
                                     <div class="review">
                                         <div class="review_date">{{$review->created_at}}</div>
                                         <div class="user_name">{{$review->users->name}}</div>
-                                        <p>{{$review->review}}</p>
+                                        <p>{!! $review->review !!}</p>
                                     </div>
                                 </div>
 

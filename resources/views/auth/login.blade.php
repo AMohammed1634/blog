@@ -32,7 +32,7 @@
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <!--<input type="text" name="your_name" id="your_name" placeholder="Your Email"/>-->
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email"
                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')

@@ -29,6 +29,6 @@ class ShoppingCartController extends Controller
     }
 
     public function view_cart(){
-        return auth()->user()->shoppingCart;
+        return auth()->user()->shoppingCart->where('ordered','-1');
     }
 }

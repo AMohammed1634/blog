@@ -133,7 +133,7 @@
                                     @if(\Illuminate\Support\Facades\Auth::check())
                                         <a href="{{route('view-cart')}}">
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                            <span id="checkout_items" class="checkout_items">{{\Illuminate\Support\Facades\Auth::user()->shoppingCart->count()}}</span>
+                                            <span id="checkout_items" class="checkout_items">{{\Illuminate\Support\Facades\Auth::user()->shoppingCart->where('ordered',-1)->count()}}</span>
                                         </a>
                                     @else
                                         <a href="#">

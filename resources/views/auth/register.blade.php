@@ -37,6 +37,19 @@
                                     </span>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input id="phone" type="text" class="form-control @error('name') is-invalid @enderror"
+                                       placeholder="Enter Phone Here" name="phone" value="{{ old('phone') }}" required autocomplete="name" autofocus>
+
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"

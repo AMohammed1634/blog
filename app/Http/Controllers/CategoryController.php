@@ -29,15 +29,24 @@ class CategoryController extends Controller
         $response = [
             'valid' => $valid,
 
-            'userID' => auth()->user()->id,
-
             'success' => true,
 
-            'data'    => $category->products ,
+            'data' => $category->products,
             'isLogin' => auth()->check()
-
         ];
+        if(auth()->check()) {
+            $response = [
+                'valid' => $valid,
 
+                'userID' => auth()->user()->id,
+
+                'success' => true,
+
+                'data' => $category->products,
+                'isLogin' => auth()->check()
+
+            ];
+        }
 
         return response()->json($response, 200);
         return $category->products;

@@ -38,9 +38,16 @@ Route::get('/category/{category}/products','CategoryController@singleCategoryPro
 
 Route::get('/products/{product}','ProductController@viewProduct')->name('viewProduct');
 
-Route::get('/products/design/{product}','ProductController@getDesignView')->name('getDesignView');
+
 
 Route::get('/products/{product}/addToChart/{user}','ShoppingCartController@addToChart')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('addToChart');
+
+Route::get('/products/design/{product}','ProductController@getDesignView')->name('getDesignView')->middleware(\App\Http\Middleware\LoginMidelware::class);
+
+Route::post('/products/design/{product}/addImage','ProductController@addImage')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('addImage');
+
+
+
 //"{{route('viewProduct',$subCategory->products->last()->id)}}"
 
 
@@ -56,5 +63,7 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::get('/view-cart','ShoppingCartController@view_cart')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('view-cart');
 
-
+Route::get('/asd/asd',function (){
+    return "AhmedMAHROUS";
+});
 

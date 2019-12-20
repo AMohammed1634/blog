@@ -18,18 +18,31 @@ $( function() {
         start:function(event,ui){
             lastLeft = $(this).offset().left;
             lastTop = $(this).offset().top;
-            console.log(lastLeft+ "  "+ lastTop);
+            var container = document.getElementById('img-container');
+
+            console.log($(this).offset().top+"asd"+container.offsetTop);
+            console.log($(this).offset().left+"asd"+container.offsetLeft);
         },
         /**
          * whene stop element
          */
         stop:function(){
+            // alert($(this).offset().top+"  "+$(this).offset().left);
+            // alert( );
+            var $y = ($(this).offset().top - $("#img-container").offset().top);
+            var $x = $(this).offset().left-$("#img-container").offset().left;
+            var $width = $(this).outerWidth();
+            var $height = $(this).outerHeight();
+            var $widthContainer = $('.img-container').outerWidth();
+            var $heightContainer = $(".img-container").outerHeight();
+            var $imgID = $(this).siblings().text();
 
             var container = document.getElementById('img-container');
             console.log($(this).offset().top+"asd"+container.offsetTop);
             console.log($(this).offset().left+"asd"+container.offsetLeft);
-            if(($(this).offset().top < container.offsetTop || $(this).offset().left < container.offsetLeft+159 )||
-                ($(this).offset().top+77 > container.offsetTop+510 || $(this).offset().left+166 > container.offsetLeft+500+162 ))
+
+            if(($(this).offset().top < container.offsetTop || $(this).offset().left < container.offsetLeft+158 )||
+                ($(this).offset().top+77 > container.offsetTop+510 || $(this).offset().left+166 > container.offsetLeft+500+150 ))
             {
                 console.log($(this).offset().top+"asd"+container.offsetTop);
                 console.log($(this).offset().left+"asd"+container.offsetLeft);
@@ -45,50 +58,27 @@ $( function() {
 
                 })
             }else{
-
+                /**
+                 * get the location of child image from the parent image
+                 */
+                storeImageData($imgID,$x,$y,$width,$height);
             }
         }
-    }).resizable({
-        // resize from all edges and corners
-        edges: { left: true, right: true, bottom: true, top: true },
-
-        modifiers: [
-            // keep the edges inside the parent
-            $('.img-local').modifiers.restrictEdges({
-                outer: 'parent',
-                endOnly: true
-            }),
-
-            // minimum size
-            $(".img-local").modifiers.restrictSize({
-                min: { width: 100, height: 50 }
-            })
-        ],
-
-        inertia: true
-    })
-        .on('resizemove', function (event) {
-            var target = event.target
-            var x = (parseFloat(target.getAttribute('data-x')) || 0)
-            var y = (parseFloat(target.getAttribute('data-y')) || 0)
-
-            // update the element's style
-            target.style.width = event.rect.width + 'px'
-            target.style.height = event.rect.height + 'px'
-
-            // translate when resizing from top or left edges
-            x += event.deltaRect.left
-            y += event.deltaRect.top
-
-            target.style.webkitTransform = target.style.transform =
-                'translate(' + x + 'px,' + y + 'px)'
-
-            target.setAttribute('data-x', x)
-            target.setAttribute('data-y', y)
-            target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
-        });
-
+    });
 
 
 
 } );
+/**
+ * call to API To Save Changes
+ */
+$("#btn-save").click(function (){
+    $.ajax({
+        "url":"http://127.0.0.1:8000//saveDesign/31",
+        "method":"GET",
+        "success":function (e) {
+            alert(e);
+        }
+    })
+    console.log()
+});

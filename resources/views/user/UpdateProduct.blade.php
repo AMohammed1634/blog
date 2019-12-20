@@ -1,7 +1,7 @@
 {{--customization--}}
 
 
-<!doctype html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -88,11 +88,19 @@
             <div class="col-lg-9 design-area" id="parent-product">
 
                 <img src="/storage/product_images/{{$product->img}}" class="img-container" id="img-container">
-                <nav>
-                    ASD
+                <nav class="navbar navbar-light" style="">
+                    <!-- Navbar content -->
+                    <div>
+                        <ul class="navbar navbar-default">
+                            <li class="nav-item nav-link "  > ASD</li>
+                            <li class="nav-item nav-link btn btn-primary " style="float: right" id="btn-save">Save </li>
+{{--                            http://127.0.0.1:8000//saveDesign/31--}}
+
+                        </ul>
+                    </div>
                 </nav>
             </div>
-            {{--Center Area--}}
+            {{--End Center Area--}}
             <div class="col-lg-2 -align-right myRight" id="layers">
                 <h1 class="layer">Layers</h1>
                 <img class="ro" src="/customization/row.png">
@@ -113,10 +121,7 @@
             </div>
         </div>
     </div>
-    <dialog id="move-right">
-        A7A
-        <button id="OK" value="cancel">OK</button>
-    </dialog>
+
     <output aria-live="polite"></output>
 
     <script src="/js/jquery3.2.1.min.js"></script>
@@ -186,7 +191,8 @@
             $layers.append('<div class="layers-content" >\n' +
                 '                    <div class="upload" >\n' +
                 '\n' +
-                '                        <img class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'">\n' +
+                '                        <img class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'" >\n' +
+                '<div style="display: none">'+images[i].id+'</div>' +
                 '                    </div>\n' +
                 '                </div>');
             if(i==2)
@@ -216,6 +222,7 @@
                 '                    <div class="upload" >\n' +
                 '\n' +
                 '                        <img class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'">\n' +
+                '<div style="display: none">'+images[i].id+'</div>' +
                 '                    </div>\n' +
                 '                </div>');
             if(i==2)
@@ -236,7 +243,25 @@
         </script>
     @endif
 @endisset
+
 <script>
+
+    function storeImageData(imgID,x,y,width,height){
+        $.ajax({
+            "type":"get",
+            "url":"http://127.0.0.1:8000/updateRow/{{$product->id}}",
+            "data":{
+                "imgID":imgID,
+                "x" :x,
+                "y":y,
+                "width":width,
+                "height":height
+            },
+            "success":function (resopnse) {
+                console.log(resopnse);
+            }
+        })
+    }
 
 
 </script>

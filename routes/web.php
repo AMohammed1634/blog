@@ -46,7 +46,7 @@ Route::get('/products/design/{product}','ProductController@getDesignView')->name
 
 Route::post('/products/design/{product}/addImage','ProductController@addImage')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('addImage');
 
-
+Route::get("/updateRow/{product}","UserImagesController@updateRow")->middleware(\App\Http\Middleware\LoginMidelware::class);
 
 //"{{route('viewProduct',$subCategory->products->last()->id)}}"
 
@@ -67,3 +67,17 @@ Route::get('/asd/asd',function (){
     return "AhmedMAHROUS";
 });
 
+/**
+ * test python API
+ */
+Route::get("/py/","Controller@callPythonTest");
+
+/**
+ * call python APIs
+ */
+
+Route::get("/saveDesign/{product}","CallPythonAPIsController@saveChanges")->middleware(\App\Http\Middleware\LoginMidelware::class)->name("saveChanges");
+
+/**
+ * End Call To Python Section
+ */

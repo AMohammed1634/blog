@@ -14,8 +14,8 @@ class UserImagesController extends Controller
         $userImage = userImages::find($request->imgID);
         $userImage->obj_height = $request->height ;
         $userImage->obj_width = $request->width;
-        $userImage->offset_x = $request->x < 0 ? 0 :$request->x ;
-        $userImage->offset_y = $request->y < 0 ? 0 : $request->y;
+        $userImage->offset_x = $request->x < 0 ? -1 :$request->x ;
+        $userImage->offset_y = $request->y < 0 ? -1 : $request->y;
         $userImage->save();
         $response = [
             "message"=> "A7A"

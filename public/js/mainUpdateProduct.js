@@ -38,11 +38,11 @@ $( function() {
             var $imgID = $(this).siblings().text();
 
             var container = document.getElementById('img-container');
-            console.log($(this).offset().top+"asd"+container.offsetTop);
-            console.log($(this).offset().left+"asd"+container.offsetLeft);
+            console.log($(this).offset().top+" asd "+container.offsetTop);
+            console.log($(this).offset().left+" asd "+container.offsetLeft);
 
-            if(($(this).offset().top < container.offsetTop || $(this).offset().left < container.offsetLeft+158 )||
-                ($(this).offset().top+77 > container.offsetTop+510 || $(this).offset().left+166 > container.offsetLeft+500+150 ))
+            if(($(this).offset().top < container.offsetTop || $(this).offset().left < container.offsetLeft+200 )||
+                ($(this).offset().top+77 > container.offsetTop+468 || $(this).offset().left+166 > container.offsetLeft+448+172 ))
             {
                 console.log($(this).offset().top+"asd"+container.offsetTop);
                 console.log($(this).offset().left+"asd"+container.offsetLeft);
@@ -54,9 +54,10 @@ $( function() {
                     /**
                      * make item resizable after dropped it
                      */
-
+                    storeImageData($imgID,-1,-1,$width,$height);
 
                 })
+                $(this).css({"width":166,"height":77});
             }else{
                 /**
                  * get the location of child image from the parent image
@@ -69,16 +70,3 @@ $( function() {
 
 
 } );
-/**
- * call to API To Save Changes
- */
-$("#btn-save").click(function (){
-    $.ajax({
-        "url":"http://127.0.0.1:8000//saveDesign/31",
-        "method":"GET",
-        "success":function (e) {
-            alert(e);
-        }
-    })
-    console.log()
-});

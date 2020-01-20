@@ -47,9 +47,10 @@ class ProductController extends Controller
                 'product_id' => $product->id ,
                 'img'=>$imgName]);
 
-            $images = userImages::where(
-                ['user_id'=>auth()->user()->id ,
-                'product_id'=>$product->id]
+            $images = userImages::where([
+                ['user_id',"=",auth()->user()->id ],
+                [ 'product_id',"=",$product->id]
+                    ]
             )->get();
 //            dd($images);
             return redirect()->back()->with(['added' => 'Success' , 'images'=>$images]);

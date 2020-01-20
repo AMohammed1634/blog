@@ -9,8 +9,8 @@
 }
 .row-content .img-container{
     margin:20px ;
-    width: 500px;
-    height: 510px;
+    width: 420px;
+    height: 468px;
 }
 .myRight{
     text-align: center;
@@ -41,7 +41,9 @@
 }
 .upload{
     border: 2px solid #2B3075;
-    height: 77px;
+    height: 81px;
+    width: 170px;
+    float: left;
     /*cursor: pointer;*/
 }
 .layers-content i{
@@ -50,4 +52,26 @@
 
 .droppable-container{
     border: 2px solid #2B3075;
+}
+
+
+button.left, button.right{
+    border: none;
+
+}
+button.left {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+button.right {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+button:hover{
+    background-color:#DDD;
+}
+.controler{
+    /*margin:7px 15px ;*/
+    margin-left: 15px;
+    margin-top: 7px;
 }

@@ -9,6 +9,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Update {{$product->name}}</title>
+
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/UpdateProduct.css">
     <link href="/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -85,7 +86,7 @@
                 asd
             </div>
             {{--Center Area--}}
-            <div class="col-lg-9 design-area" id="parent-product">
+            <div class="col-lg-8 design-area" id="parent-product">
 
                 <img src="/storage/product_images/{{$product->img}}" class="img-container" id="img-container">
                 <nav class="navbar navbar-light" style="">
@@ -101,7 +102,7 @@
                 </nav>
             </div>
             {{--End Center Area--}}
-            <div class="col-lg-2 -align-right myRight" id="layers">
+            <div class="col-lg-3 -align-right myRight" id="layers" style="padding: 0px">
                 <h1 class="layer">Layers</h1>
                 <img class="ro" src="/customization/row.png">
                 <form action="{{route('addImage',$product->id)}}" method="post" style="display: none" id="form-upload-image" enctype="multipart/form-data">
@@ -178,6 +179,7 @@
 </script>
 @isset($images)
     <script>
+        var width=166,height=77;
         // $('#alert').css({'display':'block'});
         var $layers = $('#layers');
         let lengthImage = "<?php echo $images->count() ?>";
@@ -188,61 +190,66 @@
         images = JSON.parse(images);
         console.log(images);
         for(var i=0;i<lengthImage;i++){
-            $layers.append('<div class="layers-content" >\n' +
+            $layers.append('<br style="clear: both">' +
+                '<div class="layers-content" style="margin-top: 15px">\n' +
                 '                    <div class="upload" >\n' +
                 '\n' +
-                '                        <img class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'" >\n' +
+                '                        <img id="'+images[i].id+'" class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'" >\n' +
                 '<div style="display: none">'+images[i].id+'</div>' +
                 '                    </div>\n' +
+                '<div class="controler" style="float: left"> <button class="left increaseX" index="'+images[i].id+'">+ x</button><button class="right decreaseX" index="'+images[i].id+'">- x</button></div>' +
+                '<br style="">' +
+                '<div class="controler" style="float: left"> <button class="left increaseY" index="'+images[i].id+'">+ y</button><button class="right decreaseY" index="'+images[i].id+'">- y</button></div>' +
                 '                </div>');
-            if(i==2)
-                break;
+
         }
         $('.img-local').css({
             'width':'166px',
             'height':'77px',
         })
 
-    </script>
-@endisset
-@if(session("added")!== null )
-    @if(session("added") == "Success")
-    <script>
-        $('#alert').css({'display':'block'});
-        var $layers = $('#layers');
-        let lengthImage = "<?php echo session('images')->count() ?>";
-        lengthImage = parseInt(lengthImage);
-        console.log(typeof lengthImage);
-        var images = '<?php echo json_encode(session('images')); ?>';
-        console.log(images);
-        images = JSON.parse(images);
-        console.log(images);
-        for(var i=0;i<lengthImage;i++){
-            $layers.append('<div class="layers-content" >\n' +
-                '                    <div class="upload" >\n' +
-                '\n' +
-                '                        <img class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'">\n' +
-                '<div style="display: none">'+images[i].id+'</div>' +
-                '                    </div>\n' +
-                '                </div>');
-            if(i==2)
-                break;
-        }
-        $('.img-local').css({
-            'width':'166px',
-            'height':'77px',
+        /**
+         resize images
+
+         */
+        $(".increaseX").click((e)=>{
+
+            console.log(e.target.getAttribute("index"))
+            var $img = $("#"+e.target.getAttribute("index"));
+            $img.css({"width":++width});
+
+            var $y = ($(this).offset().top - $("#img-container").offset().top);
+            var $x = $(this).offset().left-$("#img-container").offset().left;
+            var $width = $(this).outerWidth();
+            var $height = $(this).outerHeight();
+            var $widthContainer = $('.img-container').outerWidth();
+            var $heightContainer = $(".img-container").outerHeight();
+            var $imgID = $(this).siblings().text();
+            // console.log($(this).)
+        })
+        $(".decreaseX").click((e)=>{
+            console.log(e.target.getAttribute("index"))
+            var $img = $("#"+e.target.getAttribute("index"));
+            $img.css({"width":--width});
         })
 
+        $(".increaseY").click((e)=>{
+
+            console.log(e.target.getAttribute("index"))
+            var $img = $("#"+e.target.getAttribute("index"));
+            $img.css({"height":++height});
+        })
+        $(".decreaseY").click((e)=>{
+            console.log(e.target.getAttribute("index"))
+            var $img = $("#"+e.target.getAttribute("index"));
+            $img.css({"height":--height});
+        })
+        function pushShanges(){
+
+        }
     </script>
-
-    @else
-        asd
-        <script>
-            $('#alert-faild').css({'display':'block'});
-
-        </script>
-    @endif
 @endisset
+
 
 <script>
 
@@ -264,5 +271,19 @@
     }
 
 
+    /**
+     * call to API To Save Changes
+     */
+    $("#btn-save").click(function (){
+        $.ajax({
+            "url":"http://127.0.0.1:8000//saveDesign/{{$product->id}}",
+            "method":"GET",
+            "success":function (e) {
+                alert(e);
+                console.log(e);
+            }
+        })
+        console.log()
+    });
 </script>
 

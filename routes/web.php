@@ -81,3 +81,16 @@ Route::get("/saveDesign/{product}","CallPythonAPIsController@saveChanges")->midd
 /**
  * End Call To Python Section
  */
+
+/**
+ * customization
+ */
+
+
+Route::get("/customization/viewCustomization/{product}","CustomizationController@viewCustomizationLayout");
+
+
+
+
+
+

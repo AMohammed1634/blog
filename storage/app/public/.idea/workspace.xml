@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="daeede1c-e2f0-4e56-bfbd-209263d710d3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../css/customization.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../js/customization.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../resources/views/user/customization.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../storage/app/public/UpdatedProduct/Image00001_1579355335.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../storage/app/public/UpdatedProduct/Image00001_1579355405.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../storage/app/public/UpdatedProduct/Image00001_1579355450.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../storage/app/public/UpdatedProduct/wallpaper_1579355064.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/Http/Controllers/CallPythonAPIsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../app/Http/Controllers/CallPythonAPIsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/Http/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../app/Http/Controllers/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/Http/Controllers/UserImagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../app/Http/Controllers/UserImagesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../css/UpdateProduct.css" beforeDir="false" afterPath="$PROJECT_DIR$/../css/UpdateProduct.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../js/mainUpdateProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/../js/mainUpdateProduct.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../resources/views/user/UpdateProduct.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../resources/views/user/UpdateProduct.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../storage/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../storage/app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../storage/app/public/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../storage/app/public/.gitignore" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1WctORlQHxY1zoO6nqIC0vxaMFa" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.Add2Images">
+    <configuration name="Add2Images" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="storage" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Add2Images.py" />
+      <option name="PARAMETERS" value="python3" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="storage" type="Python.FlaskServer">
+      <module name="storage" />
+      <option name="target" value="$PROJECT_DIR$/Add2Images.py" />
+      <option name="targetType" value="PATH" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Add2Images" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="daeede1c-e2f0-4e56-bfbd-209263d710d3" name="Default Changelist" comment="" />
+      <created>1579460678255</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579460678255</updated>
+      <workItem from="1579460680316" duration="1097000" />
+      <workItem from="1579463987846" duration="3514000" />
+      <workItem from="1579539074115" duration="1963000" />
+      <workItem from="1579549534418" duration="2042000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/storage$Add2Images.coverage" NAME="Add2Images Coverage Results" MODIFIED="1579550932632" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

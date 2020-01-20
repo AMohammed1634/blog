@@ -51,7 +51,8 @@ class CallPythonAPIsController extends Controller
         $data = DB::table('user_images')->where([
             ['user_id','=',auth()->user()->id],
             ['offset_x','<>',-1],
-            ['offset_y','<>',-1]
+            ['offset_y','<>',-1],
+            ["product_id","=",$product->id]
         ])->get();
         $s_img = [];
         foreach ($data as $item){
@@ -64,8 +65,8 @@ class CallPythonAPIsController extends Controller
             array_push($s_img,$asd);
         }
         $l_img = ["img_src"=>"product_images/". $product->img,
-                    "width"=>500,
-                    "height"=>510];
+                    "width"=>420,
+                    "height"=>468];
         $objJSON = [
             "l_img"=>$l_img,
             "s_img"=>$s_img
@@ -76,7 +77,8 @@ class CallPythonAPIsController extends Controller
 
 //         return ($data);
         $response = $this->callToApi($url,$method,$data);
-        $response = json_decode($response);
+//        $response = json_decode($response);
+        return $response;
         /**
          * create new Item
          */

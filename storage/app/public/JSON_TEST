@@ -1,0 +1,60 @@
+***url http://127.0.0.1:5000/api/  ,method=["post"]
+parameters
+{
+	"l_img":{
+		"img_src":"BImg/! ! Fannan NewLook.jpg",
+		"width":500,
+		"height":500
+	},
+	"s_img":[
+		{
+			"img_src":"BImg/! Fannan NewLook Ani (1).jpg",
+			"width":100,
+			"height":100,
+			"x":50,
+			"y":50
+		},
+		{
+			"img_src":"BImg/! Fannan NewLook Car.jpg",
+			"width":120,
+			"height":120,
+			"x":0,
+			"y":0
+		}
+		]
+}
+responses
+
+*** url http://127.0.0.1:5000/api/addText/ ,method=["post"]
+parameters
+{
+	"img":{
+		"img_src":"BImg/! ! Fannan NewLook.jpg",
+		"width":500,
+		"height":500,
+		"x":50,
+		"y":50,
+		"font_size":1,
+		"font_family":8
+	},
+	"text":"Value Added"
+}
+responses
+
+
+
+
+*** url http://127.0.0.1:5000/api/addText/font_family/ , methods=['get']
+REturn an Fonts Family available
+response
+{
+  "0": "cv.FONT_HERSHEY_COMPLEX",
+  "1": "cv.FONT_HERSHEY_COMPLEX_SMALL",
+  "2": "cv.FONT_HERSHEY_DUPLEX",
+  "3": "cv.FONT_HERSHEY_PLAIN",
+  "4": "cv.FONT_HERSHEY_SCRIPT_COMPLEX",
+  "5": "cv.FONT_HERSHEY_SCRIPT_SIMPLEX",
+  "6": "cv.FONT_HERSHEY_SIMPLEX",
+  "7": "cv.FONT_HERSHEY_TRIPLEX",
+  "8": "cv.FONT_ITALIC"
+}

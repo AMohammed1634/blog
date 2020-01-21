@@ -13,37 +13,43 @@ from random import random
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-def responeMessage(code,status,mgs):
+
+def responeMessage(code, status, mgs):
     return {
         "status": status,
         "response_code": code,
-        "message":mgs
+        "message": mgs
     }
 
-@app.route("/api/test/",methods=["GET"])
+
+@app.route("/api/test/", methods=["GET"])
 def func():
     return {
-        "key":"value"
+        "key": "value"
     }
+
+
+"""
+add images to One Image And Resize It 
+"""
 
 
 @app.route('/api/', methods=['POST'])
 def api_all():
-
     # get the JSON OBJECT
     req = request.get_json()
-    if len(req) == 0 :
-        return responeMessage(2,"faild","Error In Parameters Messing")
+    if len(req) == 0:
+        return responeMessage(2, "faild", "Error In Parameters Messing")
     print(req)
     if "l_img" not in req.keys() or "s_img" not in req.keys():
-        return responeMessage(3,"failed","ERROR missing Arguments ")
+        return responeMessage(3, "failed", "ERROR missing Arguments ")
 
     # Extract an large image Object
     l_imgObj = req["l_img"]
     # read Image
     l_img = cv.imread(l_imgObj["img_src"])
     if l_img is None:
-        return responeMessage(4,"failed","Failed to load An Image From Source")
+        return responeMessage(4, "failed", "Failed to load An Image From Source")
     print(req.keys())
 
     # if l_img.all()==None :
@@ -51,7 +57,7 @@ def api_all():
     # Resize this imag
     l_img_width = int(l_imgObj['width'])
     l_img_height = int(l_imgObj['height'])
-    dsize = (l_img_width,l_img_height)
+    dsize = (l_img_width, l_img_height)
     l_img = cv.resize(l_img, dsize)
     print(l_img.shape)
     # cv.imshow('composited image', l_img)
@@ -67,36 +73,117 @@ def api_all():
         offset_x = smailImagObject["x"]
         offset_y = smailImagObject["y"]
         newSize = (width, height)
-        smailImg = cv.resize(smailImg,newSize)
+        smailImg = cv.resize(smailImg, newSize)
         # add Images وهخبطها افايه بت حرام كافره
         # h = smailImg.shape[0]
         # w = smailImg.shape[1]
         # return str(offset_y+smailImg.shape[0])+"  --  "+str(l_img.shape[0])
         newWidth, newHeight = smailImg.shape[0], smailImg.shape[1]
         flag = 0
+        # الافايه بت الحرام اهيا
         if offset_y + smailImg.shape[0] > l_img.shape[0]:
             newWidth = l_img.shape[0] - offset_y
-            # return "out side of width"
+
         if offset_x + smailImg.shape[1] > l_img.shape[1]:
             newHeight = l_img.shape[1] - offset_x
-            # return "out side of height"
-        print("newWidth "+str(newWidth))
+
+        print("newWidth " + str(newWidth))
         print("newheight " + str(newHeight))
         l_img[offset_y:offset_y + newWidth, offset_x:offset_x + newHeight] = smailImg[0:newWidth, 0:newHeight]
 
     cv.imshow('New Image', l_img)
     cv.waitKey(0)
-    #error
+    # error
     cv.destroyAllWindows()
-    name = "NewCustomization"+str(random())+".jpg"
-    cv.imwrite("newImages/"+name, l_img)
+    name = "NewCustomization" + str(random()) + ".jpg"
+    cv.imwrite("newImages/" + name, l_img)
     print(name)
     return {
-        "name":name,
-        "status":"Success",
-        "response_code":1
+        "name": name,
+        "status": "Success",
+        "response_code": 1
     }
 
+
+"""
+add text to image API
+"""
+
+
+@app.route('/api/addText/', methods=['post'])
+def addText():
+    fonts = (
+        cv.FONT_HERSHEY_COMPLEX,
+        cv.FONT_HERSHEY_COMPLEX_SMALL,
+        cv.FONT_HERSHEY_DUPLEX,
+        cv.FONT_HERSHEY_PLAIN,
+        cv.FONT_HERSHEY_SCRIPT_COMPLEX,
+        cv.FONT_HERSHEY_SCRIPT_SIMPLEX,
+        cv.FONT_HERSHEY_SIMPLEX,
+        cv.FONT_HERSHEY_TRIPLEX,
+        cv.FONT_ITALIC
+    )
+    # get the JSON OBJECT
+    req = request.get_json()
+    print(req)
+    if "img" not in req.keys() or "text" not in req.keys():
+        return dict(error="NO.1")
+    imgObj = req['img']
+    if "img_src" not in imgObj.keys() or "width" not in imgObj.keys() \
+            or "height" not in imgObj.keys() \
+            or "x" not in imgObj.keys() or "y" not in imgObj.keys() \
+            or "font_size" not in imgObj.keys() or "font_family" not in imgObj.keys():
+        return dict(error="Error NO. 2")
+    txt = req["text"]
+    img = cv.imread(imgObj['img_src'])
+    # show image
+    width = int(imgObj['width'])
+    height = int(imgObj['height'])
+    newSize = (width, height)
+    img = cv.resize(img, newSize)
+    x = imgObj['x']
+    y = imgObj['y']
+    font_size = imgObj['font_size']
+    fontIndex = imgObj["font_family"]
+    if fontIndex >= len(fonts):
+        return dict(error="ERROR NO. 3")
+    # add text
+    position = (x, y)
+
+    cv.putText(
+        img,
+        txt,
+        position,
+        fonts[fontIndex],  # font family
+        font_size,  # font size
+        (209, 80, 0, 255),  # font color
+        3  # font stroke
+    )
+    cv.imshow("AddText", img)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+    return dict(key="value")
+
+
+"""
+Get All Available colors 
+"""
+
+
+@app.route("/api/addText/font_family/", methods=['get'])
+def font_family():
+    fonts = {
+        '0': "cv.FONT_HERSHEY_COMPLEX",
+        '1': "cv.FONT_HERSHEY_COMPLEX_SMALL",
+        '2': "cv.FONT_HERSHEY_DUPLEX",
+        '3': "cv.FONT_HERSHEY_PLAIN",
+        '4': "cv.FONT_HERSHEY_SCRIPT_COMPLEX",
+        '5': "cv.FONT_HERSHEY_SCRIPT_SIMPLEX",
+        '6': "cv.FONT_HERSHEY_SIMPLEX",
+        '7': "cv.FONT_HERSHEY_TRIPLEX",
+        '8': "cv.FONT_ITALIC"
+    }
+    return fonts
 
 
 app.run()

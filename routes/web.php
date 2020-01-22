@@ -79,6 +79,10 @@ Route::get("/py/","Controller@callPythonTest");
 Route::get("/saveDesign/{product}","CallPythonAPIsController@saveChanges")->middleware(\App\Http\Middleware\LoginMidelware::class)->name("saveChanges");
 
 /**
+ * call add text
+ */
+Route::get("/addText/{product}","CallPythonAPIsController@addText")->middleware(\App\Http\Middleware\LoginMidelware::class)->name("addText");
+/**
  * End Call To Python Section
  */
 

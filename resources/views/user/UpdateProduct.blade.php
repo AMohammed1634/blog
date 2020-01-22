@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Update {{$product->name}}</title>
+    <title>T-shirt Design Lab {{$product->name}}</title>
 
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/UpdateProduct.css">
@@ -32,13 +32,14 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="/bower_components/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/timepicker/bootstrap-timepicker.css">
 {{--    include jquery-ui css /plugins/lquery-ui-1.12.1.custom/jquery-ui.--}}
     <link rel="stylesheet" href="/plugins/lquery-ui-1.12.1.custom/jquery-ui.css">
 </head>
 <body>
 
 
-    <div class="container">
+    <div class="">
 {{--        alert-faild--}}
         <div class="row " id="alert" style="display:none;z-index: 1021">
             <div class="box box-success box-solid">
@@ -82,13 +83,59 @@
             <!-- /.box -->
         </div>
         <div class="row row-content">
-            <div class="col-lg-1">
-                asd
+            <div class="col-lg-3 left-side">
+                <div class="row">
+                    <div class="col-lg-3 icons">
+                        <div id="addText">
+                            <i class="fa fa-text-width"></i>
+                        </div>
+                        <div id="addText">
+                            <i class="fa fa-image"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-9" style="padding: 0px">
+                        <div id="addTextForm" style="display: none">
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Add Text</h3>
+                            </div>
+                            <img class="ro" src="/customization/row.png">
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form class="form-horizontal">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label">Text</label>
+
+                                        <div class="">
+                                            <input type="text" class="form-control" id="text" placeholder="Text" style="border: none;width: 100%">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Color picker:</label>
+                                        <input type="color" id="color" class="form-control my-colorpicker1 colorpicker-element">
+                                    </div>
+
+
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer" style="background-color: #292c31;border-top: none">
+
+                                    <button type="submit" class="btn btn-info pull-left" id="testAddText">Test It</button>
+                                    <button  class="btn btn-info pull-right" id="addText">Add Text</button>
+                                </div>
+                                <!-- /.box-footer -->
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             {{--Center Area--}}
-            <div class="col-lg-8 design-area" id="parent-product">
+            <div class="col-lg-6 design-area" id="parent-product">
 
                 <img src="/storage/product_images/{{$product->img}}" class="img-container" id="img-container">
+                <div id="textToDesplay">AhmedMahrous</div>
                 <nav class="navbar navbar-light" style="">
                     <!-- Navbar content -->
                     <div>
@@ -126,7 +173,7 @@
     <output aria-live="polite"></output>
 
     <script src="/js/jquery3.2.1.min.js"></script>
-    <script src="/js/mainUpdateProduct.js"></script>
+
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
@@ -166,10 +213,39 @@
 {{--<script src="/bower_components/admin-lte/dist/js/pages/dashboard.js"></script>--}}
 <!-- AdminLTE for demo purposes -->
 <script src="/bower_components/admin-lte/dist/js/demo.js"></script>
-
+<!-- bootstrap color picker -->
+<script src="/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 {{--include jquery UI --}}
 <script src="/plugins/lquery-ui-1.12.1.custom/jquery-ui.js"></script>
 
+
+<!-- Select2 -->
+<script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="/bower_components/moment/min/moment.min.js"></script>
+<script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap color picker -->
+<script src="/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="/bower_components/admin-lte/plugins/timepicker/bootstrap-timepicker.js"></script>
+<!-- SlimScroll -->
+<script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="/bower_components/admin-lte/plugins/iCheck/icheck.min.js"></script>
+<!-- FastClick -->
+<script src="/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="/bower_components/admin-lte/dist/js/adminlte.min.js"></script>
+
+
+
+<script src="/js/mainUpdateProduct.js"></script>
 
 </html>
 
@@ -218,19 +294,26 @@
             var $img = $("#"+e.target.getAttribute("index"));
             $img.css({"width":++width});
 
-            var $y = ($(this).offset().top - $("#img-container").offset().top);
-            var $x = $(this).offset().left-$("#img-container").offset().left;
-            var $width = $(this).outerWidth();
-            var $height = $(this).outerHeight();
-            var $widthContainer = $('.img-container').outerWidth();
-            var $heightContainer = $(".img-container").outerHeight();
-            var $imgID = $(this).siblings().text();
-            // console.log($(this).)
+            let $y = ($img.offset().top - $("#img-container").offset().top);
+            let $x = $img.offset().left - $("#img-container").offset().left;
+            let $width = $img.outerWidth();
+            let $height = $img.outerHeight();
+            let $imgID = e.target.getAttribute("index");
+            console.log($width+"  "+$height)
+            storeImageData($imgID,$x,$y,$width,$height);
         })
         $(".decreaseX").click((e)=>{
             console.log(e.target.getAttribute("index"))
             var $img = $("#"+e.target.getAttribute("index"));
             $img.css({"width":--width});
+
+            let $y = ($img.offset().top - $("#img-container").offset().top);
+            let $x = $img.offset().left - $("#img-container").offset().left;
+            let $width = $img.outerWidth();
+            let $height = $img.outerHeight();
+            let $imgID = e.target.getAttribute("index");
+            console.log($width+"  "+$height)
+            storeImageData($imgID,$x,$y,$width,$height);
         })
 
         $(".increaseY").click((e)=>{
@@ -238,11 +321,27 @@
             console.log(e.target.getAttribute("index"))
             var $img = $("#"+e.target.getAttribute("index"));
             $img.css({"height":++height});
+
+            let $y = ($img.offset().top - $("#img-container").offset().top);
+            let $x = $img.offset().left - $("#img-container").offset().left;
+            let $width = $img.outerWidth();
+            let $height = $img.outerHeight();
+            let $imgID = e.target.getAttribute("index");
+            console.log($width+"  "+$height)
+            storeImageData($imgID,$x,$y,$width,$height);
         })
         $(".decreaseY").click((e)=>{
             console.log(e.target.getAttribute("index"))
             var $img = $("#"+e.target.getAttribute("index"));
             $img.css({"height":--height});
+
+            let $y = ($img.offset().top - $("#img-container").offset().top);
+            let $x = $img.offset().left - $("#img-container").offset().left;
+            let $width = $img.outerWidth();
+            let $height = $img.outerHeight();
+            let $imgID = e.target.getAttribute("index");
+            console.log($width+"  "+$height)
+            storeImageData($imgID,$x,$y,$width,$height);
         })
         function pushShanges(){
 
@@ -285,5 +384,9 @@
         })
         console.log()
     });
+    /**
+     * add text
+     */
+
 </script>
 

@@ -89,4 +89,36 @@ class CallPythonAPIsController extends Controller
         $newProduct->save();
         return "Object Save ";
     }
+    public function addText(product $product,Request $request){
+        $color = "";$asd = $request->color;
+        $asd = str_ireplace("#","",$asd);
+
+        /**
+         * convert hash hex color formate
+         */
+        $split_hex_color = str_split( $asd, 2 );
+        $RGBColor = [ hexdec( $split_hex_color[0] ),
+            hexdec( $split_hex_color[1] ),
+            hexdec( $split_hex_color[2] )];
+        $img = ["img_src"=>"product_images/". $product->img,
+            "width"=>420,
+            "height"=>468,
+            "x"=>$request->x,
+            "y"=>$request->y,
+            "font_size"=>1,
+            "font_family"=>8,
+            "font_color"=>$RGBColor
+        ];
+        $objJSON = [
+            "img"=>$img,
+            "text"=>$request->txt
+        ];
+        $data =  (json_encode($objJSON));
+        $url = "http://127.0.0.1:5000/api/addText/";
+        $method = "POST";
+
+        $response = $this->callToApi($url,$method,$data);
+//        $response = json_decode($response);
+        return $response;
+    }
 }

@@ -30,7 +30,7 @@ def func():
 
 
 """
-add images to One Image And Resize It 
+add images to One Image And Resize It
 """
 
 
@@ -96,7 +96,7 @@ def api_all():
     # error
     cv.destroyAllWindows()
     name = "NewCustomization" + str(random()) + ".jpg"
-    cv.imwrite("newImages/" + name, l_img)
+    cv.imwrite( name, l_img)
     print(name)
     return {
         "name": name,
@@ -127,13 +127,14 @@ def addText():
     req = request.get_json()
     print(req)
     if "img" not in req.keys() or "text" not in req.keys():
-        return dict(error="NO.1")
+        return responeMessage(6, 'Faild', "Failed No data Send")
     imgObj = req['img']
     if "img_src" not in imgObj.keys() or "width" not in imgObj.keys() \
             or "height" not in imgObj.keys() \
             or "x" not in imgObj.keys() or "y" not in imgObj.keys() \
-            or "font_size" not in imgObj.keys() or "font_family" not in imgObj.keys():
-        return dict(error="Error NO. 2")
+            or "font_size" not in imgObj.keys() or "font_family" not in imgObj.keys()\
+            or "font_color" not in imgObj.keys():
+        return responeMessage(7, "Failed", "Failed Parameters Is Not Complete")
     txt = req["text"]
     img = cv.imread(imgObj['img_src'])
     # show image
@@ -141,32 +142,40 @@ def addText():
     height = int(imgObj['height'])
     newSize = (width, height)
     img = cv.resize(img, newSize)
-    x = imgObj['x']
-    y = imgObj['y']
-    font_size = imgObj['font_size']
-    fontIndex = imgObj["font_family"]
+    x = int(imgObj['x'])
+    y = int(imgObj['y'])
+    font_size = int(imgObj['font_size'])
+    fontIndex = int(imgObj["font_family"])
     if fontIndex >= len(fonts):
-        return dict(error="ERROR NO. 3")
+        return responeMessage(8, "Failed", "Failed index of Font Family in not successfully ")
     # add text
     position = (x, y)
+    color = imgObj["font_color"]
 
+    if len(color) > 3:
+        return responeMessage(9, "Failed", "Failed color  in not successfully ")
+
+    print(color)
     cv.putText(
         img,
         txt,
         position,
         fonts[fontIndex],  # font family
         font_size,  # font size
-        (209, 80, 0, 255),  # font color
-        3  # font stroke
+        color,  # font color
+        1  # font stroke
     )
     cv.imshow("AddText", img)
     cv.waitKey(0)
     cv.destroyAllWindows()
-    return dict(key="value")
+    # create Image
+    name = "NewTextAdded" + str(random()) + ".jpg"
+    cv.imwrite(name, img)
+    return dict(response_code=5, status="Success", Message="Text Added Successfully", name=name)
 
 
 """
-Get All Available colors 
+Get All Available colors
 """
 
 

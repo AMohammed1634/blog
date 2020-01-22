@@ -25,6 +25,7 @@ parameters
 }
 responses
 
+======================================================================================================
 *** url http://127.0.0.1:5000/api/addText/ ,method=["post"]
 parameters
 {
@@ -35,15 +36,21 @@ parameters
 		"x":50,
 		"y":50,
 		"font_size":1,
-		"font_family":8
+		"font_family":8,
+		"font_color":[225,225,225]
 	},
 	"text":"Value Added"
 }
 responses
+response_code       status      Message
+-----------------------------------------------------------
+5                   Success     Add Text Success
+6                   Failed      Failed No data Send
+7                   Failed      Failed Parameters Is Not Complete
+8                   Failed      Failed index of Font Family in not successfully
+9                   Failed      Failed color format  in not successfully
 
-
-
-
+=============================================================================
 *** url http://127.0.0.1:5000/api/addText/font_family/ , methods=['get']
 REturn an Fonts Family available
 response

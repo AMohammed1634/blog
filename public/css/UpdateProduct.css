@@ -1,9 +1,11 @@
 .row-content{
     height: 625px;
+    color: #ffffff;
 }
 
 .design-area{
-    background-image: url("/customization/grid.jpg");
+    /*background-image: url("/customization/grid.jpg");*/
+    background-color: #171719;
     height: 100%;
     background-size: cover;
 }
@@ -74,4 +76,52 @@ button:hover{
     /*margin:7px 15px ;*/
     margin-left: 15px;
     margin-top: 7px;
+}
+/***
+left-side controller
+ */
+.left-side{
+    background-color: #171719;
+    color: #ffffff;
+    padding-left: 15px;
+}
+.left-side .icons{
+
+    margin: 15px 0px;
+    padding: 0;
+}
+.left-side .icons div{
+    background-color: #292c31;
+    color: #a9aaac;
+}
+.left-side .icons div:hover{
+    background-color: #2d3039;
+    color: #ffffff;
+    cursor: pointer;
+
+}
+.left-side .icons div i{
+    padding:10px 5px;
+    font-size: 20px;
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+#addTextForm{
+    margin-left: 3px;
+    background-color: #292c31;
+    color: #a9aaac;
+    padding: 7px;
+}
+#addTextForm .box-body{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#textToDesplay{
+    display: none;
+    position: absolute;
+    top: 229px;
+    left: 172px;
+    border: 1px dotted #000;
+    padding: 7px 10px;
 }

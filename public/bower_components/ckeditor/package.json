@@ -1,14 +1,13 @@
 {
-  "name": "ckeditor4",
-  "version": "4.13.0",
+  "name": "ckeditor",
+  "version": "4.11.2",
   "description": "JavaScript WYSIWYG web text editor.",
   "main": "ckeditor.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ckeditor/ckeditor4-releases.git"
+    "url": "git+https://github.com/ckeditor/ckeditor-releases.git"
   },
   "keywords": [
-    "ckeditor4",
     "ckeditor",
     "fckeditor",
     "editor",
@@ -21,7 +20,7 @@
   "author": "CKSource (http://cksource.com/)",
   "license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
   "bugs": {
-    "url": "https://github.com/ckeditor/ckeditor4/issues"
+    "url": "http://dev.ckeditor.com"
   },
   "homepage": "http://ckeditor.com"
 }

@@ -90,7 +90,7 @@ function BuildHTMLContent(json) {
                 str+='<div class="product-item men" style="display: inline-block">'+
                         '<div class="product discount product_filter">'+
                             '<div class="product_image">'+
-                                '<img src="/storage/product_images/'+products[i].img+'" alt="" style="width: 90%;margin: 5%">'+
+                                '<img src="/storage/product_images/'+products[i].img+'" alt="" style="width: 90%;margin: 5%;height: 198px;">'+
 
                         '</div>'+
                     '<div class="favorite favorite_left"></div>'+

@@ -1,3 +1,5 @@
+Python API Guide
+=================================================================================================================
 ***url http://127.0.0.1:5000/api/  ,method=["post"]
 parameters
 {
@@ -24,6 +26,13 @@ parameters
 		]
 }
 responses
+response_code       status      Message
+-----------------------------------------------------------
+1                   success     name of new Image
+2                   failed      parameters not send
+3                   failed      Parameters is not complete
+4                   Failed      failed to load an Image from source
+
 
 ======================================================================================================
 *** url http://127.0.0.1:5000/api/addText/ ,method=["post"]
@@ -65,3 +74,73 @@ response
   "7": "cv.FONT_HERSHEY_TRIPLEX",
   "8": "cv.FONT_ITALIC"
 }
+البتاعه بتاعه ال btn save
+*** url http://127.0.0.1:5000/api/save/result/
+parameters (JSON)
+{
+  "container": {
+    "height": 500,
+    "img_src": "BImg/! ! Fannan NewLook.jpg",
+    "width": 500
+  },
+  "images": [
+    {
+      "height": 100,
+      "img_src": "BImg/! Fannan NewLook Ani (1).jpg",
+      "width": 100,
+      "x": 50,
+      "y": 450
+    },
+    {
+      "height": 120,
+      "img_src": "BImg/! Fannan NewLook Car.jpg",
+      "width": 120,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "word": {
+    "font_color": [
+      225,
+      225,
+      225
+    ],
+    "font_family": 3,
+    "font_size": 1,
+    "text": "Value Added",
+    "x": 50,
+    "y": 50
+  }
+}
+responses
+response_code       status      Message
+-----------------------------------------------------------
+10                  success     item Save Success
+6                   Failed      Failed No data Send
+7                   Failed      Failed Parameters Is Not Complete
+8                   Failed      Failed index of Font Family in not successfully
+9                   Failed      Failed color format  in not successfully
+4                   Failed      failed to load an Image from source
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+############################################################################################
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Config project versions
+
+Tool                     Version
+----------------------------------
+PHP                      7.3.11
+composer                 1.9.1
+laravel-framework        6.5.0
+Python                   3.7.5
+pip                      18.1
+Flask                    1.1.1
+OpenCV                   4.1.2.30
+Flask-RESTful            0.3.7
+
+
+
+

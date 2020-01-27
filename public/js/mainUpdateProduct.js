@@ -77,9 +77,17 @@ $( function() {
 
  */
 let $addText = $("#addText");
+let f = 0;
 $addText.click((e)=>{
-    $("#addTextForm").css({"display":"block"});
-    $addText.css({"color":"#FFF","background-color":"#2d3039"})
+    if(f==0) {
+        $("#addTextForm").css({"display": "block"});
+        $addText.css({"color": "#FFF", "background-color": "#2d3039"})
+        f=1;
+    }else{
+        $("#addTextForm").css({"display": "none"});
+        $addText.css({"color": "#a9aaac", "background-color": "#292c31"})
+        f=0
+    }
 })
 
 //Colorpicker
@@ -87,33 +95,6 @@ $('.my-colorpicker1').colorpicker()
 //color picker with addon
 $('.my-colorpicker2').colorpicker()
 
-$("#testAddText").click((e)=>{
-    e.preventDefault();
-    e.preventDefault();
-    let x = $("#textToDesplay").offset().left - $("#img-container").offset().left,
-        y = $("#textToDesplay").offset().top - $("#img-container").offset().top;
-    let width = $("#textToDesplay").outerWidth(),
-        height = $("#textToDesplay").outerHeight(),
-        txt = $("#text").val(),
-        color = $("#color").val();
-    let data = {
-        "txt":txt,
-        "color":color,
-        "x" :x,
-        "y":y,
-        "width":width,
-        "height":height
-    };
-    console.log(data);
-    $.ajax({
-        "type":"get",
-        "url":"http://127.0.0.1:8000/addText/1",
-        "data":data,
-        "success":function (resopnse) {
-            console.log(resopnse);
-        }
-    })
-})
 
 $("#text").keyup((e)=>{
     console.log("A&A");
@@ -166,7 +147,28 @@ $("#textToDesplay").draggable({
         }
     }
 })
-
+let flag = 0;
+$("#bold").click((e)=>{
+    if(flag==0) {
+        $("#bold").css({
+            "background-color": "#8F8F8F",
+            "color": "#FFF"
+        });
+        $("#textToDesplay").css({
+            "font-weight": "bold"
+        })
+        flag = 1
+    }else{
+        $("#bold").css({
+            "background-color": "#292c31",
+            "color": "#a9aaa0"
+        });
+        $("#textToDesplay").css({
+            "font-weight": "normal"
+        })
+        flag = 0
+    }
+})
 
 //
 // $("#addText").click((e)=>{

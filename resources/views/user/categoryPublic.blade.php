@@ -176,11 +176,11 @@
                                             <!-- Product 1 -->
                                             @foreach($item->subCategory as $subCategory)
                                                 {{--GetTheLatestElementInDataBase--}}
-                                                <div class="product-item men" style="">
+                                                <div class="product-item men" style="display: inline-block;width: 24%">
                                                     <div class="product discount product_filter">
                                                         <div class="product_image">
                                                             <img src="/storage/product_images/{{$subCategory->products->last()->img}}" alt=""
-                                                                 style="width: 90%;margin: 5%">
+                                                                 style="width: 90%;margin: 5%;height: 198px;">
                                                         </div>
                                                         <div class="favorite favorite_left"></div>
                                                         @if($subCategory->products->last()->discounted_price != 0)

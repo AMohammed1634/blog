@@ -50,6 +50,14 @@ Route::get("/updateRow/{product}","UserImagesController@updateRow")->middleware(
 
 //"{{route('viewProduct',$subCategory->products->last()->id)}}"
 
+Route::post("/product/{product}/addComment", 'ReviewController@addReview')->middleware(\App\Http\Middleware\LoginMidelware::class)->name("addReview");
+
+/**
+ * user profile routes
+ */
+Route::get('user/profile/{user}', 'UserController@viewProfile')->middleware(\App\Http\Middleware\LoginMidelware::class)->name("viewProfile");
+Route::post('user/profile/changeImage/{user}', 'UserController@changeImage')->middleware(\App\Http\Middleware\LoginMidelware::class)->name("changeImage");
+
 
 
 Auth::routes();
@@ -82,6 +90,9 @@ Route::get("/saveDesign/{product}","CallPythonAPIsController@saveChanges")->midd
  * call add text
  */
 Route::get("/addText/{product}","CallPythonAPIsController@addText")->middleware(\App\Http\Middleware\LoginMidelware::class)->name("addText");
+
+
+Route::get('/customization/saveResult/{product}','CallPythonAPIsController@saveResult')->middleware(\App\Http\Middleware\LoginMidelware::class)->name("CustomizationSaveResult");
 /**
  * End Call To Python Section
  */
@@ -94,7 +105,13 @@ Route::get("/addText/{product}","CallPythonAPIsController@addText")->middleware(
 Route::get("/customization/viewCustomization/{product}","CustomizationController@viewCustomizationLayout");
 
 
+Route::get("/test",function (){
+    return view("test");
+});
 
 
+/**
+ * Data Mining Algorithm
+ */
 
-
+Route::get('/FPTreeAlgorithm','DMController@FPTreeAlgorithm');

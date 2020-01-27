@@ -97,16 +97,19 @@ class CallPythonAPIsController extends Controller
          * convert hash hex color formate
          */
         $split_hex_color = str_split( $asd, 2 );
-        $RGBColor = [ hexdec( $split_hex_color[0] ),
+        $RGBColor = [
+            hexdec( $split_hex_color[2] ),
             hexdec( $split_hex_color[1] ),
-            hexdec( $split_hex_color[2] )];
+
+            hexdec( $split_hex_color[0] )
+        ];
         $img = ["img_src"=>"product_images/". $product->img,
             "width"=>420,
             "height"=>468,
             "x"=>$request->x,
-            "y"=>$request->y,
+            "y"=>$request->y + 20,
             "font_size"=>1,
-            "font_family"=>8,
+            "font_family"=>1,
             "font_color"=>$RGBColor
         ];
         $objJSON = [
@@ -119,6 +122,75 @@ class CallPythonAPIsController extends Controller
 
         $response = $this->callToApi($url,$method,$data);
 //        $response = json_decode($response);
+        return $response;
+    }
+    public function saveResult(Request $request, product $product){
+
+        $images = DB::table('user_images')->where([
+            ['user_id','=',auth()->user()->id],
+            ['offset_x','<>',-1],
+            ['offset_y','<>',-1],
+            ["product_id","=",$product->id]
+        ])->get();
+        $s_img = [];
+        foreach ($images as $item){
+            $asd = ["img_src"=>"UpdatedProduct/".$item->img,
+                "width"=>$item->obj_width,
+                "height"=>$item->obj_height,
+                "x"=>$item->offset_x,
+                "y"=>$item->offset_y
+            ];
+            array_push($s_img,$asd);
+        }
+
+        $data =[];
+
+        if($request->flage == 1) {
+            $asd1 = str_ireplace("#","",$request->color);
+
+            /**
+             * convert hash hex color formate
+             */
+            $split_hex_color = str_split( $asd1, 2 );
+            $RGBColor = [
+                hexdec( $split_hex_color[2] ),
+                hexdec( $split_hex_color[1] ),
+
+                hexdec( $split_hex_color[0] )
+            ];
+            $data = [
+                "container" => [
+                    "height" => 468,
+                    "img_src" => "product_images/" . $product->img,
+                    "width" => 420
+                ],
+                "images" => $s_img,
+                "word" => [
+                    "font_color" => $RGBColor,
+                    "font_family" => 3,
+                    "font_size" => 1,
+                    "text" => $request->txt,
+                    "x" => $request->x,
+                    "y" => $request->y
+                ],
+                "flage"=>1
+            ];
+        }else{
+            $data = [
+                "container" => [
+                    "height" => 468,
+                    "img_src" => "product_images/" . $product->img,
+                    "width" => 420
+                ],
+                "images" => $s_img,
+                "word" => "NoWord",
+                "flage" => 0
+                ];
+        }
+        $data =  (json_encode($data));
+//        $data = str_replace('\\', "", $data);
+        $response = $this->callToApi("http://127.0.0.1:5000/api/save/result/","POST",$data);
+//        return "Ahmed";
         return $response;
     }
 }

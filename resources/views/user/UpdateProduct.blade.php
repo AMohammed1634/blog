@@ -35,6 +35,45 @@
     <link rel="stylesheet" href="/bower_components/admin-lte/plugins/timepicker/bootstrap-timepicker.css">
 {{--    include jquery-ui css /plugins/lquery-ui-1.12.1.custom/jquery-ui.--}}
     <link rel="stylesheet" href="/plugins/lquery-ui-1.12.1.custom/jquery-ui.css">
+
+
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="/plugins/iCheck/all.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body>
 
@@ -104,16 +143,23 @@
                             <!-- form start -->
                             <form class="form-horizontal">
                                 <div class="box-body">
-                                    <div class="form-group">
+                                    <div class="">
                                         <label for="inputEmail3" class="col-sm-2 control-label">Text</label>
 
                                         <div class="">
                                             <input type="text" class="form-control" id="text" placeholder="Text" style="border: none;width: 100%">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <br><br>
+
+                                    <div class="">
                                         <label>Color picker:</label>
-                                        <input type="color" id="color" class="form-control my-colorpicker1 colorpicker-element">
+                                        <input type="text" id="color"  class="form-control my-colorpicker1 colorpicker-element">
+                                    </div>
+                                    <br><br>
+                                    <div class="">
+                                        <i class="fa fa-bold" id="bold"></i>
+                                        <i class="fa fa-italic" id="italic"></i>
                                     </div>
 
 
@@ -135,13 +181,14 @@
             <div class="col-lg-6 design-area" id="parent-product">
 
                 <img src="/storage/product_images/{{$product->img}}" class="img-container" id="img-container">
-                <div id="textToDesplay">AhmedMahrous</div>
-                <nav class="navbar navbar-light" style="">
+                <div id="textToDesplay">0000.0000.0000.0000</div>
+                <nav class="navbar " style="">
                     <!-- Navbar content -->
                     <div>
-                        <ul class="navbar navbar-default">
+                        <ul class="navbar navbar-dark">
                             <li class="nav-item nav-link "  > ASD</li>
-                            <li class="nav-item nav-link btn btn-primary " style="float: right" id="btn-save">Save </li>
+                            <li class="nav-item nav-link btn btn-primary " style="float: right;margin-right: 7px" id="btn-save">Test Image </li>
+                            <li class="nav-item nav-link btn btn-primary " style="float: right" id="saveResult">Save Final</li>
 {{--                            http://127.0.0.1:8000//saveDesign/31--}}
 
                         </ul>
@@ -155,6 +202,7 @@
                 <form action="{{route('addImage',$product->id)}}" method="post" style="display: none" id="form-upload-image" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="image" id="image">
+                    <input type="submit" name="image-submit" id="image-submit">
                     <input type="submit" name="image-submit" id="image-submit">
                 </form>
                 <div class="layers-content" id="layers-content" style="cursor: pointer">
@@ -179,11 +227,7 @@
 
 </body>
 <!-- jQuery UI 1.11.4 -->
-<script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button);
-</script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
@@ -216,15 +260,18 @@
 <!-- bootstrap color picker -->
 <script src="/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 {{--include jquery UI --}}
-<script src="/plugins/lquery-ui-1.12.1.custom/jquery-ui.js"></script>
 
 
+<!-- jQuery 3 -->
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Select2 -->
 <script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
 <!-- InputMask -->
-<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
-<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="/plugins/input-mask/jquery.inputmask.js"></script> **
+<script src="/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- date-range-picker -->
 <script src="/bower_components/moment/min/moment.min.js"></script>
 <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -233,18 +280,24 @@
 <!-- bootstrap color picker -->
 <script src="/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 <!-- bootstrap time picker -->
-<script src="/bower_components/admin-lte/plugins/timepicker/bootstrap-timepicker.js"></script>
+<script src="/plugins/timepicker/bootstrap-timepicker.min.js"></script>
 <!-- SlimScroll -->
 <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- iCheck 1.0.1 -->
-<script src="/bower_components/admin-lte/plugins/iCheck/icheck.min.js"></script>
+<script src="/plugins/iCheck/icheck.min.js"></script>
 <!-- FastClick -->
 <script src="/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="/bower_components/admin-lte/dist/js/adminlte.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
 
-
-
+<script src="/plugins/lquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script src="/js/mainUpdateProduct.js"></script>
 
 </html>
@@ -273,9 +326,9 @@
                 '                        <img id="'+images[i].id+'" class="img-local" src="\\storage\\UpdatedProduct\\'+ images[i].img +'" >\n' +
                 '<div style="display: none">'+images[i].id+'</div>' +
                 '                    </div>\n' +
-                '<div class="controler" style="float: left"> <button class="left increaseX" index="'+images[i].id+'">+ x</button><button class="right decreaseX" index="'+images[i].id+'">- x</button></div>' +
+                '<div class="controler" style="float: left;color: #000"> <button class="left increaseX" index="'+images[i].id+'">+ x</button><button class="right decreaseX" index="'+images[i].id+'">- x</button></div>' +
                 '<br style="">' +
-                '<div class="controler" style="float: left"> <button class="left increaseY" index="'+images[i].id+'">+ y</button><button class="right decreaseY" index="'+images[i].id+'">- y</button></div>' +
+                '<div class="controler" style="float: left;color: #000"> <button class="left increaseY" index="'+images[i].id+'">+ y</button><button class="right decreaseY" index="'+images[i].id+'">- y</button></div>' +
                 '                </div>');
 
         }
@@ -388,5 +441,71 @@
      * add text
      */
 
+    $("#testAddText").click((e)=>{
+        e.preventDefault();
+        e.preventDefault();
+        let x = $("#textToDesplay").offset().left - $("#img-container").offset().left,
+            y = $("#textToDesplay").offset().top - $("#img-container").offset().top;
+        let width = $("#textToDesplay").outerWidth(),
+            height = $("#textToDesplay").outerHeight(),
+            txt = $("#text").val(),
+            color = $("#color").val();
+        let data = {
+            "txt":txt,
+            "color":color,
+            "x" :x,
+            "y":y,
+            "width":width,
+            "height":height
+        };
+        console.log(data);
+        $.ajax({
+            "type":"get",
+            "url":"http://127.0.0.1:8000/addText/{{$product->id}}",
+            "data":data,
+            "success":function (resopnse) {
+                console.log(resopnse);
+            }
+        })
+    })
+    $('.my-colorpicker1').colorpicker()
+    $('#saveResult').click((e)=>{
+        let x = $("#textToDesplay").offset().left - $("#img-container").offset().left,
+            y = $("#textToDesplay").offset().top - $("#img-container").offset().top;
+        let width = $("#textToDesplay").outerWidth(),
+            height = $("#textToDesplay").outerHeight(),
+            txt = $("#text").val(),
+            color = $("#color").val();
+        let data = {
+            "txt":txt,
+            "color":color,
+            "x" :x,
+            "y":y,
+            "width":width,
+            "height":height
+        };
+        let flage=0;
+        // aleart("ASD");
+        if($("#textToDesplay").text()=="0000.0000.0000.0000"){
+            console.log("No Text")
+            flage=0;
+            data = {
+                "flage":0
+            }
+        }else{
+            console.log("Add Text")
+            flage = 1;
+            data.flage = 1;
+        }
+        console.log(data);
+        $.ajax({
+            "type":"get",
+            "url":"http://127.0.0.1:8000/customization/saveResult/{{$product->id}}",
+            "data":data,
+            "success":function (e) {
+                console.log(e);
+            }
+        })
+    })
 </script>
 

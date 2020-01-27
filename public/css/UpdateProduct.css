@@ -124,4 +124,15 @@ left-side controller
     left: 172px;
     border: 1px dotted #000;
     padding: 7px 10px;
+    font-size: 23px;
+}
+.form-horizontal div i {
+    padding: 7px;
+    cursor:pointer;
+    margin: 7px;
+}
+.form-horizontal div i:hover {
+    background-color: #8F8F8F;
+    color:#FFF;
+    /*font-weight: normal;*/
 }

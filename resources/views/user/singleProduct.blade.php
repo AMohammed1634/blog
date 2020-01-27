@@ -87,7 +87,7 @@
                             <span id="quantity_value">1</span>
                             <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                         </div>
-                        <div class="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                        <div class="red_button add_to_cart_button"><a href="#" id="addToCart">add to cart</a></div>
                         <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
 
                     </div>
@@ -231,7 +231,8 @@
                             <div class="col-lg-6 add_review_col">
 
                                 <div class="add_review">
-                                    <form id="review_form" action="post">
+                                    <form id="review_form" method="post" action="{{route('addReview',$product->id)}}">
+                                        @csrf
                                         <div>
                                             <h1>Add Review</h1>
 
@@ -239,12 +240,16 @@
                                         <div>
                                             <h1>Your Rating:</h1>
                                             <ul class="user_star_rating" id="rating-stars">
-                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                                                @for($i=0;$i<5;$i++)
+                                                    <li><i class="fa fa-star-o" aria-hidden="true" id="star{{$i}}"></i></li>
+                                                @endfor
+{{--                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>--}}
+{{--                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>--}}
+{{--                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>--}}
+{{--                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>--}}
+{{--                                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>--}}
                                             </ul>
+                                            <input type="text" name="rate" value="0" style="display: none;" id="rate">
                                             <script>
 
                                             </script>
@@ -272,5 +277,22 @@
 
 @section('JSLinks')
 
+    <script src="/js/jquery3.2.1.min.js"></script>
     <script src="/js/single_custom.js"></script>
+    <script src="/js/singleProduct.js"></script>
+    <script>
+        // 01129674856
+        $("#addToCart").click((e)=>{
+            e.preventDefault();
+            @guest
+                alert("Login First")
+            @else
+                let url = "http://127.0.0.1:8000/products/{{$product->id}}/addToChart/{{Auth::user()->id}}",
+                    method = "GET",
+                    data = {};
+                callAPI(url,method,data);
+            @endguest
+
+        })
+    </script>
 @endsection

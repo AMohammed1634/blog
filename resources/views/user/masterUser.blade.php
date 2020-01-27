@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Colo Shop Categories</title>
+        <title>T-shirt Design LAb</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="Colo Shop Template">
@@ -83,7 +83,7 @@
                                             @endif
                                         @else
                                             <li class="" style="font-size: x-small">
-                                                <a class="" href="{{ route('register') }}" > {{ Auth::user()->name }} </a>
+                                                <a class="" href="{{route('viewProfile',Auth::user()->id)}}" > {{ Auth::user()->name }} </a>
                                             </li>
                                             <li class="">
 
@@ -115,20 +115,31 @@
                 <div class="row">
                     <div class="col-lg-12 text-right">
                         <div class="logo_container">
-                            <a href="#">colo<span>shop</span></a>
+                            <a href="{{route('categories')}}">T-shrit <span>Design LAb</span></a>
                         </div>
                         <nav class="navbar">
                             <ul class="navbar_menu">
-                                <li><a href="index.html">home</a></li>
+                                <li><a href="{{route('categories')}}">home</a></li>
                                 <li><a href="#">shop</a></li>
                                 <li><a href="#">promotion</a></li>
                                 <li><a href="#">pages</a></li>
-                                <li><a href="#">blog</a></li>
+
                                 <li><a href="contact.html">contact</a></li>
                             </ul>
                             <ul class="navbar_user">
                                 <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                @guest
+                                    <li><a href="{{route('login')}}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                @else
+                                    <li>
+                                        <a href="{{route('viewProfile',Auth::user()->id)}}" style="top:15px;border:none">
+{{--                                            <i class="fa fa-user" aria-hidden="true"></i>--}}
+                                            <img src="/storage/profile_images/{{\Illuminate\Support\Facades\Auth::user()->img}}"
+                                            style="width: 100%;height: 100%;border-radius: 50%;border: none">
+                                        </a>
+                                    </li>
+                                @endguest
+
                                 <li class="checkout">
                                     @if(\Illuminate\Support\Facades\Auth::check())
                                         <a href="{{route('view-cart')}}">
@@ -199,7 +210,6 @@
                 <li class="menu_item"><a href="#">shop</a></li>
                 <li class="menu_item"><a href="#">promotion</a></li>
                 <li class="menu_item"><a href="#">pages</a></li>
-                <li class="menu_item"><a href="#">blog</a></li>
                 <li class="menu_item"><a href="#">contact</a></li>
             </ul>
         </div>
@@ -271,7 +281,7 @@
         </div>
     </footer>
     {{--EndFooter--}}
-    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/jquery3.2.1.min.js"></script>
     <script src="/styles/bootstrap4/popper.js"></script>
     <script src="/styles/bootstrap4/bootstrap.min.js"></script>
     <script src="/plugins/Isotope/isotope.pkgd.min.js"></script>
@@ -279,7 +289,9 @@
     <script src="/plugins/easing/easing.js"></script>
     <script src="/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
     @yield('JSLinks')
+<script>
 
+</script>
 
     </body>
 </html>

@@ -38,6 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="/bower_components/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
 
+    @yield('styleLinks')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -77,11 +78,11 @@ desired effect
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="{{route('categories')}}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <span class="logo-mini"><b>T-s</b> D.L</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg"><b>T-shirt</b> D.L</span>
         </a>
 
         <!-- Header Navbar -->
@@ -103,18 +104,18 @@ desired effect
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="/bower_components/admin-lte/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="/storage/profile_images/{{Auth::user()->img}}" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">{{Auth::user()->name}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="/bower_components/admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="/storage/profile_images/{{Auth::user()->img}}" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                    {{Auth::user()->name}} - Web Developer
+                                    <small>Member since {{Auth::user()->created_at}}</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
@@ -138,7 +139,7 @@ desired effect
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{route('logout')}}" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -160,10 +161,11 @@ desired effect
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="/bower_components/admin-lte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="/storage/profile_images/{{Auth::user()->img}}" class="img-circle" alt="User Image"
+                    style="width: 45px;height: 45px;">
                 </div>
                 <div class="pull-left info">
-                    <p>Alexander Pierce</p>
+                    <p>{{Auth::user()->name}}</p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
@@ -185,9 +187,10 @@ desired effect
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAin Navigation </li>
                 <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-                <li class="treeview">
+                <li @yield('dashboard')><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                <li @yield('FPTree')><a href="{{route('FPTree')}}"><i class="fa fa-link"></i> <span>See related Products <br>(FPTree)</span></a></li>
+                <li class="treeview ">
+
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
                         <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -221,6 +224,7 @@ desired effect
         <!-- Main content -->
         <section class="content container-fluid">
 
+            @yield('body')
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
@@ -366,5 +370,6 @@ desired effect
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+@yield('JSLinks')
 </body>
 </html>

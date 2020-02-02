@@ -142,5 +142,9 @@ OpenCV                   4.1.2.30
 Flask-RESTful            0.3.7
 
 
+export FLASK_APP=Add2Images.py
+flask run
+
+
 
 

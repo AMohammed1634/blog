@@ -70,6 +70,10 @@ Route::get('/home', 'HomeController@index')->name('home');
  * view shopping carts process
  */
 Route::get('/view-cart','ShoppingCartController@view_cart')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('view-cart');
+Route::get('/view-cart/delete/{cart}','ShoppingCartController@delete_cart')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('view-cart.delete');
+Route::get('/checkout/{user}','ShoppingCartController@checkout')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('checkout');
+Route::get('/checkout/{user}/place_order','OrderController@place_order')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('place_order');
+Route::get('/checkout/{user}/place_order/invoice_print/{order}','OrderController@invoice_print')->middleware(\App\Http\Middleware\LoginMidelware::class)->name('invoice_print');
 
 Route::get('/asd/asd',function (){
     return "AhmedMAHROUS";
@@ -114,4 +118,12 @@ Route::get("/test",function (){
  * Data Mining Algorithm
  */
 
-Route::get('/FPTreeAlgorithm','DMController@FPTreeAlgorithm');
+Route::get('/FPTreeAlgorithm','DMController@FPTreeAlgorithm')->middleware(\App\Http\Middleware\AdminMiddleware::class)->name('FPTree');
+
+
+/**
+ * Admin routes
+ */
+
+Route::get('/admin/dashboard','AdminController@dashboard')->name('dashboard');
+

@@ -12,6 +12,9 @@ class UserController extends Controller
     //
     public function viewProfile(User $user){
         if($user->id != auth()->user()->id){
+            if(auth()->user()->roles_id  == 3){
+                return view('user.UserProfile',compact('user'));
+            }
             $user = User::find(auth()->user()->id);
             return view('user.UserProfile',compact('user'));
         }

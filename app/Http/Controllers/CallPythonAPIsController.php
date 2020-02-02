@@ -45,6 +45,8 @@ class CallPythonAPIsController extends Controller
       curl_close($curl);
       return $result;
     }
+
+
     public  function saveChanges(product $product){
         $url = "http://127.0.0.1:5000/api/";
         $method = "POST";
@@ -167,7 +169,7 @@ class CallPythonAPIsController extends Controller
                 "images" => $s_img,
                 "word" => [
                     "font_color" => $RGBColor,
-                    "font_family" => 3,
+                    "font_family" => 1,
                     "font_size" => 1,
                     "text" => $request->txt,
                     "x" => $request->x,
@@ -191,6 +193,16 @@ class CallPythonAPIsController extends Controller
 //        $data = str_replace('\\', "", $data);
         $response = $this->callToApi("http://127.0.0.1:5000/api/save/result/","POST",$data);
 //        return "Ahmed";
+        $response = json_decode($response,true);
+//        return $response['name'];
+        if($response['response_code'] == 10){
+            $newProduct = new updatedProduct();
+            $newProduct->user_id = auth()->user()->id;
+//            $newProduct->product_id = $product->id;
+            $newProduct->img = $response['name'];
+            $newProduct->save();
+            return "Object Save ";
+        }
         return $response;
     }
 }

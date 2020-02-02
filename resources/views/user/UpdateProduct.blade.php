@@ -327,7 +327,7 @@
                 '<div style="display: none">'+images[i].id+'</div>' +
                 '                    </div>\n' +
                 '<div class="controler" style="float: left;color: #000"> <button class="left increaseX" index="'+images[i].id+'">+ x</button><button class="right decreaseX" index="'+images[i].id+'">- x</button></div>' +
-                '<br style="">' +
+                '<br style=""><br style="">' +
                 '<div class="controler" style="float: left;color: #000"> <button class="left increaseY" index="'+images[i].id+'">+ y</button><button class="right decreaseY" index="'+images[i].id+'">- y</button></div>' +
                 '                </div>');
 
@@ -504,6 +504,7 @@
             "data":data,
             "success":function (e) {
                 console.log(e);
+                alert(e);
             }
         })
     })

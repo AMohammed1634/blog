@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\order;
 use Illuminate\Http\Request;
 use App\Helper\FPGrowth;
 use App\Helper\FPNode;
@@ -11,26 +12,34 @@ use App\Helper\FPTree;
 class DMController extends Controller
 {
     //
+    /**
+     * @return mixed
+     * applay FPTree algorthim in orders
+     */
     public function FPTreeAlgorithm(){
 
-        $transactions = [
-            ['M', 'O', 'N', 'K', 'E', 'Y'],
-            ['D', 'O', 'N', 'K', 'E', 'Y'],
-            ['M', 'A', 'K', 'E'],
-            ['M', 'U', 'C', 'K', 'Y'],
-            ['C', 'O', 'O', 'K', 'I', 'E'],
-        ];
+        $arr = $this->RunFPTreeAlgorithm(2,0.7);
+        $patterns = $arr[0];
+        $rules = $arr[1];
+        return view('admin.FPTree',compact('patterns','rules'));
 
-        $support = 3;
-        $confidence = 0.7;
-
+    }
+    private function RunFPTreeAlgorithm(float $support, float $confidence){
+        $orders = order::all();
+        $transactions = [];
+        foreach ($orders as $order){
+            $row = [];
+            foreach ($order->shoppingCart as $cart){
+//                $row[]=$cart->products->name;
+                array_push($row,$cart->products->name);
+            }
+            array_push($transactions, $row);
+        }
         $fpgrowth = new FPGrowth($support, $confidence);
-
         $fpgrowth->run($transactions);
-
         $patterns = $fpgrowth->getPatterns();
         $rules = $fpgrowth->getRules();
-        return $patterns;
+        return [$patterns, $rules];
 
     }
 }

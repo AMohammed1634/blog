@@ -38,7 +38,29 @@
                             <ul class="top_nav_menu">
 
                                 <!-- Currency / Language / My Account -->
+                                {{-- Admin Section
+                                 Will Show to admin only
+                                 --}}
+                                @guest
 
+                                @else
+                                    @if(Auth::user()->roles_id == 3)
+                                        <li class="language">
+                                            <a href="#">
+                                                Admin
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="language_selection">
+                                                <li><a href="{{route('dashboard')}}">Admin Panel</a></li>
+                                                <li><a href="{{route('FPTree')}}">Related Products</a></li>
+                                                <li><a href="#">German</a></li>
+                                                <li><a href="#">Spanish</a></li>
+                                            </ul>
+                                        </li>
+                                    @else
+                                        {{"Not Admin"}}
+                                    @endif
+                                @endguest
                                 <li class="currency">
                                     <a href="#">
                                         usd

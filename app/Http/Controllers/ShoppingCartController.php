@@ -20,7 +20,7 @@ class ShoppingCartController extends Controller
             $chart->products_id = $product->id;
             $chart->users_id = $user->id;
             $chart->save();
-            return array(auth()->user()->shoppingCart->count(),200);
+            return array(auth()->user()->shoppingCart->where('ordered',-1)->count(),200);
         }
         else{
             return array('msg','alredy Added');
@@ -29,6 +29,15 @@ class ShoppingCartController extends Controller
     }
 
     public function view_cart(){
+        $carts = auth()->user()->shoppingCart->where('ordered','-1');
+        return view('user.cart',compact('carts'));
         return auth()->user()->shoppingCart->where('ordered','-1');
+    }
+    public function checkout(User $user){
+        return view("user.checkout",compact('user'));
+    }
+    public function delete_cart(shoppingCart $cart){
+        $cart->delete();
+        return redirect()->back();
     }
 }

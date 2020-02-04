@@ -48,7 +48,7 @@
     <div class="container body" style="">
         <div class="row">
             <div class="col-lg-2 left-side" style="padding-left: 0px;padding-right: 0px;padding-top: 30px">
-                <h3 style="color:#ffffff">ENteracions </h3>
+{{--                <h3 style="color:#ffffff">ENteracions </h3>--}}
                 <div class="item-actions">
                     <div class="left" style="" id="orders-left">.</div>
                     <div class="right" id="orders">Orders </div>

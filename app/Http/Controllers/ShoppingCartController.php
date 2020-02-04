@@ -12,7 +12,8 @@ class ShoppingCartController extends Controller
 {
     //
     public function addToChart(product $product,User $user){
-        $last = shoppingCart::where([['users_id',$user->id] , ['products_id',$product->id] ])->get();
+        $last = shoppingCart::where([['users_id',$user->id] , ['products_id',$product->id],
+            ['ordered',-1]])->get();
         if($last->count() == 0) {
             //dd(auth()->user()->shoppingCart->count());
             $chart = new shoppingCart();

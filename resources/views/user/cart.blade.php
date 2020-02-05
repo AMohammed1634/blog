@@ -155,8 +155,13 @@
                         <li><span>Shipping</span> <span>Free</span></li>
                         <li><span><strong>Total</strong></span> <span><strong>${{$total}}</strong></span></li>
                     </ul>
+                    @if(\Illuminate\Support\Facades\Auth::user()->shoppingCart->where('ordered',-1)->count() !=0)
                     <a href="{{route('checkout',\Illuminate\Support\Facades\Auth::user()->id)}}" class="btn karl-checkout-btn">Proceed to checkout</a>
+                    @else
+                        <a onclick="alert('No Item For Ordering it')" class="btn karl-checkout-btn">Proceed to checkout</a>
+                    @endif
                 </div>
+
             </div>
         </div>
     </div>

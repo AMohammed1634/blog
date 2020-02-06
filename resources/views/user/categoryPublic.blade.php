@@ -21,7 +21,7 @@
 
                 <div class="breadcrumbs d-flex flex-row align-items-center">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="{{route('categories')}}">Home</a></li>
 
                         @foreach($category as $item)
                             <li class="active"><a href="index.html"><i class="fa fa-angle-right" aria-hidden="true"></i>{{$item->name}}'s</a></li>
@@ -41,7 +41,7 @@
                             ?>
                             @foreach($category as $item)
                                 <li class="active">
-                                    <a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                                    <a href="http://127.0.0.1:8000/category?page={{$item->id - 7}}"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                                         {{$item->name}}
                                         <?php
                                             $itemName = $item->name;

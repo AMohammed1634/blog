@@ -24,7 +24,7 @@ class DMController extends Controller
         return view('admin.FPTree',compact('patterns','rules'));
 
     }
-    private function RunFPTreeAlgorithm(float $support, float $confidence){
+    public function RunFPTreeAlgorithm(float $support, float $confidence){
         $orders = order::all();
         $transactions = [];
         foreach ($orders as $order){

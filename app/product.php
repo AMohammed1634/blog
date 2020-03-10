@@ -22,4 +22,7 @@ class product extends Model
     public function shoppingCart(){
         return $this->hasMany('App\shoppingCart','products_id','id');
     }
+    public function productColors(){
+        return $this->hasMany('App\productColors','Product_id','id');
+    }
 }

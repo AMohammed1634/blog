@@ -6,6 +6,31 @@
     <link rel="stylesheet" type="text/css" href="/styles/single_styles.css">
     <link rel="stylesheet" type="text/css" href="/styles/single_responsive.css">
 
+    <style>
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            height: 100px;
+            width: 100px;
+
+            background-size: 100%, 100%;
+
+
+            background-image: none;
+        }
+
+        .carousel-control-next-icon:after
+        {
+            content: '>';
+            font-size: 55px;
+            color: red;
+        }
+
+        .carousel-control-prev-icon:after {
+            content: '<';
+            font-size: 55px;
+            color: red;
+        }
+    </style>
 @endsection
 
 
@@ -14,7 +39,7 @@
     <div class="container single_product_container">
         <div class="row">
             <div class="col">
-
+{{--                {{$product->productColors[0]->productSize}}--}}
                 <!-- Breadcrumbs -->
 
                 <div class="breadcrumbs d-flex flex-row align-items-center">
@@ -44,7 +69,7 @@
                         </div>
                         <div class="col-lg-9 image_col order-lg-2 order-1">
                             <div class="single_product_image">
-                                <div class="single_product_image_background" style="background-image:url('/storage/product_images/{{$product->img}}')"></div>
+                                <div id="pro" class="single_product_image_background" style="background-image:url('/storage/product_images/{{$product->img}}')"></div>
                             </div>
                         </div>
                     </div>
@@ -75,10 +100,26 @@
                     <div class="product_color">
                         <span>Select Color:</span>
                         <ul>
-                            <li style="background: #e54e5d"></li>
-                            <li style="background: #252525"></li>
-                            <li style="background: #60b3f3"></li>
+                            @foreach($product->productColors as $product_color)
+                                <li class="color" style="background: {{$product_color->colorCode}};border: 1px solid #DDD"
+                                    index="{{$product_color->id}}" id="color{{$product_color->id}}"
+                                    colorImage="{{$product_color->colorProduct}}"
+                                ></li>
+                            @endforeach
+
                         </ul>
+                    </div>
+                    <div class="product_color">
+                        <span>Select Size:</span>
+                        <select class="select2-dropdown">
+                            @if(count($product->productColors) != 0)
+                                @foreach($product->productColors[0]->productSize as $productSize)
+                                    <option index="{{$productSize->id}}">{{$productSize->size}}</option>
+                                @endforeach
+                            @else
+
+                            @endif
+                        </select>
                     </div>
                     <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                         <span>Quantity:</span>
@@ -110,7 +151,7 @@
                 <div class="col">
                     <div class="tabs_container">
                         <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-                            <li class="tab" data-active-tab="tab_1"><span>Description</span></li>
+                            <li class="tab" data-active-tab="tab_1"><span>Also Like</span></li>
                             <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>
                             <li class="tab active" data-active-tab="tab_3"><span>Reviews ({{count($product->reviews)}})</span></li>
                         </ul>
@@ -126,31 +167,93 @@
                         <div class="row">
                             <div class="col-lg-5 desc_col">
                                 <div class="tab_title">
-                                    <h4>Description</h4>
+                                    <h4>Also Like</h4>
                                 </div>
-                                <div class="tab_text_block">
-                                    <h2>Pocket cotton sweatshirt</h2>
-                                    <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                                </div>
-                                <div class="tab_image">
-                                    <img src="images/desc_1.jpg" alt="">
-                                </div>
-                                <div class="tab_text_block">
-                                    <h2>Pocket cotton sweatshirt</h2>
-                                    <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                                </div>
+
+
                             </div>
-                            <div class="col-lg-5 offset-lg-2 desc_col">
-                                <div class="tab_image">
-                                    <img src="images/desc_2.jpg" alt="">
+
+                        </div>
+                        <div class="row" >
+                            <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel"
+                                 style="width: 100%;height: 500px;;box-shadow: 5px 10px 8px #888888,-5px -10px 8px #888888;
+                                 ">
+                                <div class="carousel-inner" style="">
+                                    <div class="carousel-item active" data-interval="10000">
+                                        <div class="card" style="width: 18rem;display: inline-block;margin-left: 70px;
+                                                            ">
+                                            <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
+                                                 alt="..." style="height: 302px">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card title</h5>
+                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="card" style="width: 18rem;display: inline-block;
+                                                           margin: 0px 60px ">
+                                            <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
+                                                 alt="..." style="height: 302px">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card title</h5>
+                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            </div>
+                                        </div>
+                                        <div class="card" style="width: 18rem;display: inline-block;
+                                                    margin-right: 70px;   ">
+                                            <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
+                                                 alt="..." style="height: 302px">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card title</h5>
+                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    related Products
+                                    <br>
+                                    @foreach($roles as $role)
+                                        <div class="carousel-item" data-interval="2000">
+                                        @foreach($role as $items)
+                                            @if(is_array($items))
+                                                @foreach($items as $pro)
+
+                                                    @if($pro->id == $product->id)
+                                                        {{$pro}}
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                {{$items}}
+                                            @endif
+                                            <span style="color: #ff0000">-->></span>
+                                        @endforeach
+                                        </div>
+                                        <br><span style="color: #ff0000">End The ROle </span><br>
+                                    @endforeach
+
+
+{{--                                            <img src="" class="d-block w-100" alt="...">--}}
+
+
+
+                                    <div class="carousel-item">
+                                        <img src="" class="d-block w-100" alt="...">
+                                    </div>
+
                                 </div>
-                                <div class="tab_text_block">
-                                    <h2>Pocket cotton sweatshirt</h2>
-                                    <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                                </div>
-                                <div class="tab_image desc_last">
-                                    <img src="images/desc_3.jpg" alt="">
-                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev"
+                                style="width: 60px" >
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next"
+                                   style="width: 60px">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -281,6 +384,7 @@
     <script src="/js/single_custom.js"></script>
     <script src="/js/singleProduct.js"></script>
     <script>
+        let selectedColor = -1;
         // 01129674856
         $("#addToCart").click((e)=>{
             e.preventDefault();
@@ -293,6 +397,19 @@
                 callAPI(url,method,data);
             @endguest
 
+        });
+        $(".color").click((e)=>{
+            let id = e.target.getAttribute('id');
+            selectedColor = id;
+            let colorProduct = e.target.getAttribute('colorImage');
+            // console.log(colorProduct);
+            $(".color").css({
+                'border':'1px solid #DDD'
+            })
+            $("#"+id).css({
+                'border':'2px solid #000000'
+            })
+            $("#pro").attr('style',"background-image:url('/storage/product_images/"+colorProduct+"')");
         })
     </script>
 @endsection

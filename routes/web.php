@@ -13,9 +13,9 @@
 
 use App\category;
 
-Route::get('/', function () {
-    return view('admin.masterAdmin');
-})->name('home');//->middleware(\App\Http\Middleware\LoginMidelware::class);
+//Route::get('/', function () {
+//    return view('admin.masterAdmin');
+//})->name('home');//->middleware(\App\Http\Middleware\LoginMidelware::class);
 
 Route::get('/tes',function (){
     return view('user.categoryPublic');
@@ -127,3 +127,5 @@ Route::get('/FPTreeAlgorithm','DMController@FPTreeAlgorithm')->middleware(\App\H
 
 Route::get('/admin/dashboard','AdminController@dashboard')->name('dashboard');
 
+
+Route::get("/","HomeController@index")->name("home");

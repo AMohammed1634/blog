@@ -51,6 +51,14 @@ class ProductController extends Controller
             $row = [$temp , $temp2,$oneConfidence[2]];
             array_push($roles,$row);
         endforeach;
+        //
+//        for($i=0;$i<count($roles);$i++){
+//
+//            $var1 = $roles[$i][0];
+//            $var2 = $roles[$i][1];
+//            $con =  $roles[$i][2];
+//            break;
+//        }
 //        dd($roles);
         return view('user.singleProduct',compact('product', "roles"));
         return $product;

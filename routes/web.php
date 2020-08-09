@@ -110,6 +110,9 @@ Route::get("/customization/viewCustomization/{product}","CustomizationController
 
 
 Route::get("/test",function (){
+
+    return auth()->user()->messagesToMe;
+    return auth()->user()->messagesFromMe;
     return view("test");
 });
 
@@ -125,7 +128,30 @@ Route::get('/FPTreeAlgorithm','DMController@FPTreeAlgorithm')->middleware(\App\H
  * Admin routes
  */
 
-Route::get('/admin/dashboard','AdminController@dashboard')->name('dashboard');
+
+
+Route::get('/admin/dashboard','AdminController@dashboard')->name('dashboard')->middleware("admin");
+
+Route::get('/admin/dashboard/allOrders','AdminController@allOrders')->name('allOrders')->middleware("admin");
+Route::get('/admin/dashboard/allUpdatedProducts','AdminController@allUpdatedProducts')->name('allUpdatedProducts')->middleware("admin");
+
+
 
 
 Route::get("/","HomeController@index")->name("home");
+
+
+/**
+ * messages routes
+ */
+Route::get("/admin/messages","AdminController@messages")->name("messages");
+
+Route::get("/admin/getMessages/{userID}/{authID}","MessageController@getMessages");
+
+Route::get("/admin/writing/{userID}/{authID}","WritingController@userWriteing")->name("userWriteing");
+Route::get("/admin/writingFalse/{userID}/{authID}","WritingController@userWriteingFalse")->name("userWriteingFalse");
+Route::get("/admin/isWriting/{authID}","WritingController@isWriting")->name("isWriting");
+
+Route::get("/AMassage","MessageController@AMassage");
+
+

@@ -17,6 +17,7 @@
     </div>
     <div class="container">
         <div class="related-products">
+
             related Products
             <br>
             @foreach($roles as $role)

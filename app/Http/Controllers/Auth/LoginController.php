@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    private function updateStatus(){
+        $user = \auth()->user();
+        $user->is_active = true;
+        $user->save();
+    }
     /**
      * @param Request $request
      * mi custom login
@@ -53,7 +59,9 @@ class LoginController extends Controller
         if(!$isEmail){ /*is Mobile phone*/
             if (Auth::attempt(array('phone' => $request->email, 'password' => $request->password))){
                 //return redirect(session('links')[2])->withInput()->withErrors();
+                $this->updateStatus();
                 return Redirect::route('categories');
+
 
             }else {
                 return Redirect::back();
@@ -62,6 +70,7 @@ class LoginController extends Controller
 //        dd($isEmail,$pattern);
         if (Auth::attempt(array('email' => $request->email, 'password' => $request->password))){
             //return redirect(session('links')[2])->withInput()->withErrors();
+            $this->updateStatus();
             return Redirect::route('categories');
 
         }else {
@@ -73,7 +82,12 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        $user = \auth()->user();
+        $user->is_active = false;
+        $user->last_activation_date = new \DateTime();
+        $user->save();
         Auth::logout();
         return Redirect::back();
     }
+
 }

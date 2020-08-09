@@ -57,4 +57,10 @@ class User extends Authenticatable
     public function updatedProducts(){
         return $this->hasMany('App\updatedProduct','user_id','id');
     }
+    public function messagesFromMe(){
+        return $this->hasMany('App\message','message_from','id');
+    }
+    public function messagesToMe(){
+        return $this->hasMany('App\message','message_to','id');
+    }
 }

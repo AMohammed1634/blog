@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+//http://127.0.0.1:8000/api/ahmed
+Route::get("/ahmed",function (){
+    return "ASD";
+});
+
+Route::get("/messages/getMessage/{fromUser}/{toUser}","APIsController@getMessages")->name("getMessages");

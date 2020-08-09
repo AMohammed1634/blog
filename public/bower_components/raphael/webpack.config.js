@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const fs = require("fs");
 
 const args = process.argv;
-
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 let plugins = [
 	new webpack.BannerPlugin(fs.readFileSync('./dev/banner.txt', 'utf8'), { raw: true, entryOnly: true })
 ];
@@ -40,17 +40,29 @@ module.exports = {
 	},
 
 	externals: externals,
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: "vue-loader"
+            }
+        ]
+    },
 
-	plugins: plugins,
+    plugins: [
+        // ...
+        new VueLoaderPlugin()
+    ],
+	// plugins: plugins,
 
 	loaders: [
   		{
-  			test: /\.js$/, 
-  			loader: "eslint-loader", 
+  			test: /\.js$/,
+  			loader: "eslint-loader",
   			include: "./dev/"
   		}
 	],
-  	
+
 	eslint: {
     	configFile: './.eslintrc'
   	},

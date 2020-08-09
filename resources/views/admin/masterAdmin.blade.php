@@ -139,7 +139,11 @@ desired effect
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{route('logout')}}" class="btn btn-default btn-flat">Sign out</a>
+                                    <form action="{{route('logout')}}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-default btn-flat">Logout</button>
+                                    </form>
+                                    {{--<a href="{{route('logout')}}" class="btn btn-default btn-flat">Sign out</a>--}}
                                 </div>
                             </li>
                         </ul>
@@ -189,7 +193,9 @@ desired effect
                 <!-- Optionally, you can add icons to the links -->
                 <li @yield('dashboard')><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                 <li @yield('FPTree')><a href="{{route('FPTree')}}"><i class="fa fa-link"></i> <span>See related Products <br>(FPTree)</span></a></li>
+                <li @yield('messages')><a href="{{route('messages')}}"><i class="fa fa-link"></i> <span>Messages</span></a></li>
                 <li class="treeview ">
+
 
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
                         <span class="pull-right-container">
@@ -212,7 +218,7 @@ desired effect
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dashboard
+                @yield("head-admin")
                 <small>Control panel</small>
             </h1>
             <ol class="breadcrumb">

@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/styles/single_styles.css">
     <link rel="stylesheet" type="text/css" href="/styles/single_responsive.css">
 
+    <script src="/vue/node_modules/vue/dist/vue.js"></script>
     <style>
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
@@ -61,9 +62,12 @@
                         <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
                             <div class="single_product_thumbnails">
                                 <ul>
-                                    <li><img src="/storage/product_images/{{$product->img}}" alt="" data-image="/storage/product_images/{{$product->img}}"></li>
-                                    <li class="active"><img src="/storage/product_images/{{$product->img_2}}" alt="" data-image="/storage/product_images/{{$product->img_2}}"></li>
-                                    <li><img src="/storage/product_images/{{$product->thumbnail }}" alt="" data-image="/storage/product_images/{{$product->thumbnail }}"></li>
+                                    @foreach($product->productColors as $productColors)
+                                        <li>
+                                            <img src="/storage/product_images/{{$productColors->colorProduct}}" alt="" data-image="/storage/product_images/{{$productColors->colorProduct}}">
+                                        </li>
+                                    @endforeach
+
                                 </ul>
                             </div>
                         </div>
@@ -176,11 +180,11 @@
                         </div>
                         <div class="row" >
                             <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel"
-                                 style="width: 100%;height: 500px;;box-shadow: 5px 10px 8px #888888,-5px -10px 8px #888888;
-                                 ">
+                                 style="width: 100%;height: 600px;;box-shadow: 5px 10px 8px #888888,-5px -10px 8px #888888;
+                                 padding: 10px 28px">
                                 <div class="carousel-inner" style="">
                                     <div class="carousel-item active" data-interval="10000">
-                                        <div class="card" style="width: 18rem;display: inline-block;margin-left: 70px;
+                                        <div class="card" style="width: 18rem;display: inline-block;margin:0px 35px;
                                                             ">
                                             <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
                                                  alt="..." style="height: 302px">
@@ -192,7 +196,7 @@
                                         </div>
 
                                         <div class="card" style="width: 18rem;display: inline-block;
-                                                           margin: 0px 60px ">
+                                                           margin:0px 35px; ">
                                             <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
                                                  alt="..." style="height: 302px">
                                             <div class="card-body">
@@ -202,7 +206,7 @@
                                             </div>
                                         </div>
                                         <div class="card" style="width: 18rem;display: inline-block;
-                                                    margin-right: 70px;   ">
+                                                    margin:0px 35px;   ">
                                             <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
                                                  alt="..." style="height: 302px">
                                             <div class="card-body">
@@ -213,35 +217,58 @@
                                         </div>
                                     </div>
 
-                                    related Products
-                                    <br>
-                                    @foreach($roles as $role)
-                                        <div class="carousel-item" data-interval="2000">
-                                        @foreach($role as $items)
-                                            @if(is_array($items))
-                                                @foreach($items as $pro)
 
-                                                    @if($pro->id == $product->id)
-                                                        {{$pro}}
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                {{$items}}
+
+
+                                    @for($i=0;$i<count($roles);$i++)
+                                        <?php
+                                        $var1 = $roles[$i][0];
+                                        $var2 = $roles[$i][1];
+                                        $con =  $roles[$i][2];
+                                        $take = false;
+                                        ?>
+                                        @for($j=0;$j<count($var1);$j++)
+                                            @if($var1[$j]->id == $product->id)
+
+                                                <?php
+                                                    $take = true;
+                                                ?>
+                                                @break;
                                             @endif
-                                            <span style="color: #ff0000">-->></span>
-                                        @endforeach
-                                        </div>
-                                        <br><span style="color: #ff0000">End The ROle </span><br>
-                                    @endforeach
+                                        @endfor
+                                        @if($take)
+                                            <div class="carousel-item" style="width: 100%;height: 600px;;padding: 10px 28px">
+                                            @foreach($var2 as $pro)
+
+                                                <div class="card" style="width: 18rem;display: inline-block;
+                                                margin:0px 35px;   ">
+
+                                                    <img src="/storage/product_images/{{$pro->img}}" class="card-img-top"
+                                                         alt="..." style="height: 302px">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><a href="{{route("viewProduct",$pro->id)}}">{{$pro->name}}</a></h5>
+                                                        <p class="card-text">{{$pro->description}}</p>
+                                                        <p>
+                                                            {{$con * 100 ." % "}} Sugested This Product
+                                                        </p>
+                                                        <a href="#" class="btn btn-primary">
+
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            <br>
+                                            </div>
+                                        @endif
+                                    @endfor
 
 
-{{--                                            <img src="" class="d-block w-100" alt="...">--}}
-
-
-
+                                    <!--
                                     <div class="carousel-item">
                                         <img src="" class="d-block w-100" alt="...">
+                                        ASD
                                     </div>
+                                    -->
 
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev"
@@ -274,7 +301,7 @@
 
                     <!-- Tab Reviews -->
 
-                    <div id="tab_3" class="tab_container active">
+                    <div id="tab_3" class="tab_container active review-vue">
                         <div class="row">
 
                             <!-- User Reviews -->
@@ -290,7 +317,7 @@
                                 $counter = 0;
                                 ?>
                                 @foreach($product->reviews as $review)
-                                    <div class="user_review_container d-flex flex-column flex-sm-row">
+                                <div class="user_review_container d-flex flex-column flex-sm-row">
                                     <div class="user">
                                         <div class="user_pic">
                                             <img src="/storage/profile_images/{{$review->users->img}}"
@@ -320,10 +347,57 @@
                                 </div>
 
                                     @if($counter>=2)
-                                        <?php break; ?>
+                                        <?php //break; ?>
                                     @endif
                                 <?php $counter++; ?>
                                 @endforeach
+                                <div id="" v-if="comment">
+
+                                    <div class="user_review_container d-flex flex-column flex-sm-row">
+                                        <div class="user">
+                                            <div class="user_pic">
+{{--                                                <img src="/storage/profile_images/noImage.jpg"--}}
+{{--                                                style="width: 100%;height: 100%;border-radius: 50%" >--}}
+
+
+                                                @if(Auth::check())
+                                                    <img src="/storage/profile_images/{{Auth::user()->img}}"
+                                                         style="width: 100%;height: 100%;border-radius: 50%" >
+                                                @else
+                                                    <img src="/storage/profile_images/noImage.jpg"
+                                                         style="width: 100%;height: 100%;border-radius: 50%" >
+                                                @endif
+                                            </div>
+                                            <div class="user_rating">
+                                                <ul class="star_rating">
+                                                    {{--                                                {{$review->rating}}--}}
+
+                                                        <li>
+                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                        </li>
+
+                                                        <li>
+                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="review">
+
+                                            <div class="review_date">@{{ getTime() }}</div>
+                                            @if(Auth::check())
+                                                <div class="user_name">{{ Auth::user()->name }}</div>
+
+                                            @else
+                                                <div class="user_name">Login</div>
+                                            @endif
+
+                                            <p>@{{ comment }} </p>
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <!-- User Review -->
                                 <div class="btn btn-outline-primary">Show More</div>
 
@@ -356,7 +430,7 @@
                                             <script>
 
                                             </script>
-                                            <textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required="" data-error="Please, leave us a review."></textarea>
+                                            <textarea v-model="comment"  id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required="" data-error="Please, leave us a review."></textarea>
                                         </div>
                                         <div class="text-left text-sm-right">
                                             <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
@@ -411,5 +485,28 @@
             })
             $("#pro").attr('style',"background-image:url('/storage/product_images/"+colorProduct+"')");
         })
+   //
+   //
+   // Vue Code Is below
+   //
+   //
+        let app = new Vue({
+            el:".review-vue",
+            data:{
+                comment:""
+            },
+            methods:{
+                getTime:function () {
+                    return new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString();
+                }
+            }
+        });
     </script>
+
+    <!--
+
+    Vue Code Is below
+
+    -->
+
 @endsection

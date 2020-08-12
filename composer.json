@@ -9,12 +9,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "beyondcode/laravel-websockets": "^1.4",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
         "illuminate/support": "^6.5",
+        "laravel-frontend-presets/bulma": "^3.0",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
-        "laravel/ui": "^1.1"
+        "laravel/ui": "^1.1",
+        "pusher/pusher-php-server": "~3.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

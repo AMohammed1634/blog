@@ -218,7 +218,7 @@ Messages
 {{--                                        @endif--}}
 {{--                                      </small>--}}
 {{--                                    </span>--}}
-{{--                              <?php--}}
+{{--                              <?php ?> --}}
 {{--                              $lastMessage = \App\message::where([--}}
 {{--                                  ['message_from',$users[$i]->id],--}}
 {{--                                  ['message_to',auth()->user()->id]--}}

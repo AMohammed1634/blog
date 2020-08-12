@@ -155,3 +155,19 @@ Route::get("/admin/isWriting/{authID}","WritingController@isWriting")->name("isW
 Route::get("/AMassage","MessageController@AMassage");
 
 
+ /**
+  * chat
+  */
+
+ Route::get("/testChat",function (){
+    // broadcast(new \App\Events\WebsocketDemoEvent("some Data Ahmed"));
+    broadcast(new MessageSend(\App\message::first()));
+    return view("welcome");
+ });
+
+ Route::get("/chats","ChatController@index");
+ Route::get("/messages","ChatController@fetchMessages");
+
+ Route::get("/userMessages/{sender}/{recever}","ChatController@userMessages");
+
+ Route::post("/messageSend/{user}","ChatController@messageSend");

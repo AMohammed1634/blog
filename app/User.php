@@ -57,10 +57,24 @@ class User extends Authenticatable
     public function updatedProducts(){
         return $this->hasMany('App\updatedProduct','user_id','id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function messagesFromMe(){
         return $this->hasMany('App\message','message_from','id');
     }
     public function messagesToMe(){
         return $this->hasMany('App\message','message_to','id');
+    }
+
+    public function messages_between(User $user){
+        return message::where([
+                    ["message_to",$this->id],
+                    ["message_from",$user->id]
+                ])->orWhere([
+                    ["message_from",$this->id],
+                    ["message_to",$user->id]
+                ])->orderBy("id","ASC")->get();
     }
 }

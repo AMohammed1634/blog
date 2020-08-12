@@ -4,6 +4,10 @@ import routes from './routes';
 require('./bootstrap');
 
 
+//auto scroll to message
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
+
 
 Vue.use(VueRouter);
 Vue.component("chats",require("./component/ChatComponent.vue").default);

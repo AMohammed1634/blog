@@ -2,24 +2,26 @@
 
     <div class="row">
         <div class="col-lg-9 box-body" style="height: 550px">
-            <div class="direct-chat-messages" style="height: 468px">
-                <div class="card direct-chat direct-chat-primary" v-if="chatWith">
+            <div class="direct-chat-messages" style="height: 540px">
+                <div class="card direct-chat direct-chat-primary" v-if="chatWith" style="height: 95%">
                     <div class="card-header ui-sortable-handle">
                         <h3 class="card-title">Chat With <span class="badge badge-info">{{ chatWith.name }}</span></h3>
                         <div class="card-tools">
 
                         </div>
                     </div>
-                    <div class="card-body" style="display: block;">
-                        <div class="direct-chat-messages" id="your_div">
-                            <component :key="Math.random().toString()" v-for="message in messageList"
+                    <div class="card-body" style="display: block;height: 80%">
+                        <ul class="direct-chat-messages" id="your_div" v-chat-scroll style="height: 100%">
+                            <li v-for="message in messageList">
+                            <component :key="Math.random().toString()"
                                        :is="message.componentName"
                                        :data="message"
 
                             >
 
                             </component>
-                        </div>
+                            </li>
+                        </ul>
 
 
                     </div>
@@ -29,15 +31,15 @@
                         <form action="#" @submit.prevent="">
 
 
-                            <div class="form-group row">
+                            <div class="form-group row" style="margin-left:0px;margin-right:0px">
 
-                                <div class="col-lg-8">
+                                <div class="col-lg-10">
                                     <input
                                         type="text" v-model="messageContent"
                                         @keydown="sendTypingEvent"
                                         @keyup.enter="sendMessage"
                                         placeholder="Type Message ..."
-                                        class="form-control col-lg-12"
+                                        class="form-control "
                                     />
                                 </div>
                                 <span class="input-group-append col-lg-2">
@@ -126,21 +128,20 @@
 
 
                   if(this.chatWith != null){
-                    console.log(e);
-
-                    if(this.chatWith.id == e.message.message_from && this.auth_id.id == e.message.message_to)
-                    {
                       console.log(e);
-                      this.messageList.push({
-                        body:{
-                          content:e.message.message,
-                          created_at:e.message.created_at,
-                          userName:this.chatWith.name,
-                          img:this.imgPath + this.chatWith.img,
-                        },
-                        componentName: "guestMessage",
-                      })
-                    }
+                      if(this.chatWith.id == e.message.message_from && this.auth_id.id == e.message.message_to)
+                      {
+                          console.log(e);
+                          this.messageList.push({
+                              body:{
+                                  content:e.message.message,
+                                  created_at:e.message.created_at,
+                                  userName:this.chatWith.name,
+                                  img:this.imgPath + this.chatWith.img,
+                              },
+                              componentName: "guestMessage",
+                          })
+                      }
                   }
 
               });

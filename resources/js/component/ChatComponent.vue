@@ -115,27 +115,10 @@
                 write_to:null,
             }
         },
-        props:[ "users" ,"auth_id",'auth_name','img'],
+        props:[ "users" ,"auth_id",'auth_name','img',"user"],
         created() {
 
             this.scrollToBottom();
-            // window.Echo.channel(`App.User.${ this.auth_id.id }`).listen("MessageSend",(event)=>{
-            //     console.log("ASDDD");
-            //
-            //     if(this.chatWith && this.chatWith.id == event.message.message_from){
-            //         this.messageList.push({
-            //             body:{
-            //                 content:event.message.message,
-            //                 created_at:event.message.created_at,
-            //                 userName:"mmkk",
-            //                 img:this.imgPath + this.chatWith.img,
-            //             },
-            //             componentName: "guestMessage"
-            //         })
-            //     }
-            // })
-
-
             window.Echo.channel(`Typing`).listen("TypingMessage",(e)=>{
                 console.log(e);
 
@@ -187,6 +170,14 @@
                 }
             },3000)
 
+            if(this.user == -1){
+                console.log("-1");
+            }else{
+                console.log("object")
+                this.selectUser(this.user);
+
+
+            }
 
         },
         computed:{
@@ -254,8 +245,8 @@
             selectUser:function (user){
                 this.chatWith = user;
                 // get messages between auth and user
-                console.log(`userMessages/${this.auth_id.id}/${user.id}`);
-                axios.get(`userMessages/${this.auth_id.id}/${user.id}`).then(response => {
+                console.log(`/userMessages/${this.auth_id.id}/${user.id}`);
+                axios.get(`/userMessages/${this.auth_id.id}/${user.id}`).then(response => {
                     this.messageList = []
                     response.data.forEach(message_i => {
                         this.messageList.push({

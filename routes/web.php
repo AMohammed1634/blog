@@ -165,7 +165,7 @@ Route::get("/AMassage","MessageController@AMassage");
     return view("welcome");
  });
 
- Route::get("/chats","ChatController@index");
+ Route::get("/chats/{user?}","ChatController@index")->name("chats");
  Route::get("/messages","ChatController@fetchMessages");
 
  Route::get("/userMessages/{sender}/{recever}","ChatController@userMessages");

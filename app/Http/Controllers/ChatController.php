@@ -20,10 +20,15 @@ class ChatController extends Controller
         $this->middleware("auth");
     }
 
-    public function index(){
+    public function index(User $user = null){
 
+
+        if($user == null){
+
+            $user = -1;
+        }
         $users = User::all();
-        return \view("Chats.Chats",compact("users"));
+        return \view("Chats.Chats",compact("users","user"));
     }
     public function fetchMessages(){
         return message::with("user")->get();

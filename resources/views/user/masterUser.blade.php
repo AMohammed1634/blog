@@ -14,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
         <link rel="stylesheet" type="text/css" href="/plugins/OwlCarousel2-2.2.1/animate.css">
 
+        <link href="/fontawesome-free-5.14.0-web/css/all.css" rel="stylesheet">
         @yield('links')
         <style>
             .account_selection li a{
@@ -61,30 +62,30 @@
                                         {{"Not Admin"}}
                                     @endif
                                 @endguest
-                                <li class="currency">
-                                    <a href="#">
-                                        usd
-                                        <i class="fa fa-angle-down"></i>
-                                    </a>
-                                    <ul class="currency_selection">
-                                        <li><a href="#">cad</a></li>
-                                        <li><a href="#">aud</a></li>
-                                        <li><a href="#">eur</a></li>
-                                        <li><a href="#">gbp</a></li>
-                                    </ul>
-                                </li>
-                                <li class="language">
-                                    <a href="#">
-                                        English
-                                        <i class="fa fa-angle-down"></i>
-                                    </a>
-                                    <ul class="language_selection">
-                                        <li><a href="#">French</a></li>
-                                        <li><a href="#">Italian</a></li>
-                                        <li><a href="#">German</a></li>
-                                        <li><a href="#">Spanish</a></li>
-                                    </ul>
-                                </li>
+{{--                                <li class="currency">--}}
+{{--                                    <a href="#">--}}
+{{--                                        usd--}}
+{{--                                        <i class="fa fa-angle-down"></i>--}}
+{{--                                    </a>--}}
+{{--                                    <ul class="currency_selection">--}}
+{{--                                        <li><a href="#">cad</a></li>--}}
+{{--                                        <li><a href="#">aud</a></li>--}}
+{{--                                        <li><a href="#">eur</a></li>--}}
+{{--                                        <li><a href="#">gbp</a></li>--}}
+{{--                                    </ul>--}}
+{{--                                </li>--}}
+{{--                                <li class="language">--}}
+{{--                                    <a href="#">--}}
+{{--                                        English--}}
+{{--                                        <i class="fa fa-angle-down"></i>--}}
+{{--                                    </a>--}}
+{{--                                    <ul class="language_selection">--}}
+{{--                                        <li><a href="#">French</a></li>--}}
+{{--                                        <li><a href="#">Italian</a></li>--}}
+{{--                                        <li><a href="#">German</a></li>--}}
+{{--                                        <li><a href="#">Spanish</a></li>--}}
+{{--                                    </ul>--}}
+{{--                                </li>--}}
                                 <li class="account">
                                     <a href="#">
                                         My Account
@@ -143,17 +144,43 @@
                             <ul class="navbar_menu">
                                 <li><a href="{{route('categories')}}">home</a></li>
                                 <li><a href="#">shop</a></li>
-                                <li><a href="#">promotion</a></li>
+
                                 <li><a href="#">pages</a></li>
 
-                                <li><a href="contact.html">contact</a></li>
+
                             </ul>
                             <ul class="navbar_user">
-                                <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                <li>
+                                    @guest
+                                    <a href="{{ route("login") }}">
+
+                                        <i class="fab fa-facebook-messenger" style="font-size: 27px;color:blue;
+                                                margin-top: -40px"></i>
+                                    </a>
+                                    @else
+                                        <a href="{{ route("chats") }}">
+                                            <?php
+
+                                            $messages = App\message::where([
+                                                "message_to" => auth()->user()->id,
+                                                "readed" => 0
+                                            ])->get();
+                                            ?>
+                                            <i class="fab fa-facebook-messenger" style="font-size: 27px;color:blue;
+                                                margin-top: -40px"></i>
+                                                @if(count($messages) > 0)
+                                                    <span id="" class="checkout_items" style="top: -27px">
+                                                        {{count($messages)}}
+                                                    </span>
+                                                @endif
+                                        </a>
+                                    @endguest
+                                </li>
                                 @guest
                                     <li><a href="{{route('login')}}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 @else
                                     <li>
+
                                         <a href="{{route('viewProfile',Auth::user()->id)}}" style="top:15px;border:none">
 {{--                                            <i class="fa fa-user" aria-hidden="true"></i>--}}
                                             <img src="/storage/profile_images/{{\Illuminate\Support\Facades\Auth::user()->img}}"

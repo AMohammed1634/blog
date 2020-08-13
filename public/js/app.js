@@ -1957,26 +1957,11 @@ __webpack_require__.r(__webpack_exports__);
       write_to: null
     };
   },
-  props: ["users", "auth_id", 'auth_name', 'img'],
+  props: ["users", "auth_id", 'auth_name', 'img', "user"],
   created: function created() {
     var _this = this;
 
-    this.scrollToBottom(); // window.Echo.channel(`App.User.${ this.auth_id.id }`).listen("MessageSend",(event)=>{
-    //     console.log("ASDDD");
-    //
-    //     if(this.chatWith && this.chatWith.id == event.message.message_from){
-    //         this.messageList.push({
-    //             body:{
-    //                 content:event.message.message,
-    //                 created_at:event.message.created_at,
-    //                 userName:"mmkk",
-    //                 img:this.imgPath + this.chatWith.img,
-    //             },
-    //             componentName: "guestMessage"
-    //         })
-    //     }
-    // })
-
+    this.scrollToBottom();
     window.Echo.channel("Typing").listen("TypingMessage", function (e) {
       console.log(e);
 
@@ -2017,6 +2002,13 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     }, 3000);
+
+    if (this.user == -1) {
+      console.log("-1");
+    } else {
+      console.log("object");
+      this.selectUser(this.user);
+    }
   },
   computed: {},
   methods: {
@@ -2069,8 +2061,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this.chatWith = user; // get messages between auth and user
 
-      console.log("userMessages/".concat(this.auth_id.id, "/").concat(user.id));
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("userMessages/".concat(this.auth_id.id, "/").concat(user.id)).then(function (response) {
+      console.log("/userMessages/".concat(this.auth_id.id, "/").concat(user.id));
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/userMessages/".concat(this.auth_id.id, "/").concat(user.id)).then(function (response) {
         _this2.messageList = [];
         response.data.forEach(function (message_i) {
           _this2.messageList.push({

@@ -193,7 +193,7 @@ desired effect
                 <!-- Optionally, you can add icons to the links -->
                 <li @yield('dashboard')><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                 <li @yield('FPTree')><a href="{{route('FPTree')}}"><i class="fa fa-link"></i> <span>See related Products <br>(FPTree)</span></a></li>
-                <li @yield('messages')><a href="{{route('messages')}}"><i class="fa fa-link"></i> <span>Messages</span></a></li>
+                <li @yield('messages')><a href="{{route('chats')}}"><i class="fa fa-link"></i> <span>Messages</span></a></li>
                 <li class="treeview ">
 
 

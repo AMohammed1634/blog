@@ -95,11 +95,11 @@
                         <div class="product_price">${{$product->price}}</div>
                     @endif
                     <ul class="star_rating">
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        <li><i class="far fa-star" aria-hidden="true"></i></li>
+                        <li><i class="far fa-star" aria-hidden="true"></i></li>
+                        <li><i class="far fa-star" aria-hidden="true"></i></li>
+                        <li><i class="far fa-star" aria-hidden="true"></i></li>
+                        <li><i class="far fa-star" aria-hidden="true"></i></li>
                     </ul>
                     <div class="product_color">
                         <span>Select Color:</span>
@@ -306,6 +306,8 @@
 
                             <!-- User Reviews -->
 
+
+                            {{--- --}}
                             <div class="col-lg-6 reviews_col">
                                 <div class="tab_title reviews_title">
                                     <h4>Reviews ({{count($product->reviews)}})</h4>
@@ -328,12 +330,12 @@
 {{--                                                {{$review->rating}}--}}
                                                 @for($i=0;$i<$review->rating;$i++)
                                                     <li>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="far fa-star" aria-hidden="true"></i>
                                                     </li>
                                                 @endfor
                                                 @for($i=$review->rating;$i<5;$i++)
                                                     <li>
-                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                        <i class="far fa-star" aria-hidden="true"></i>
                                                     </li>
                                                 @endfor
                                             </ul>
@@ -341,7 +343,27 @@
                                     </div>
                                     <div class="review">
                                         <div class="review_date">{{$review->created_at}}</div>
-                                        <div class="user_name">{{$review->users->name}}</div>
+                                        <div class="user_name">
+                                            <li class="account" style="background-color: #FFF;color:#000000">
+                                                <a href="#">
+                                                    {{$review->users->name}}
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>
+                                                <ul class="account_selection" style="min-width: 200px">
+
+                                                    <li class="" style="font-size: x-small">
+                                                        Send Messae private
+                                                    </li>
+                                                    <li class="" style="">
+                                                        <a href="{{route("chats", [$review->users->id])}}">
+                                                            <i class="fab fa-facebook-messenger"
+                                                                style="font-size: 18px;color: blue"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                        </div>
                                         <p>{!! $review->review !!}</p>
                                     </div>
                                 </div>
@@ -377,7 +399,7 @@
                                                         </li>
 
                                                         <li>
-                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                            <i class="far fa-star" aria-hidden="true"></i>
                                                         </li>
 
                                                 </ul>
@@ -418,7 +440,7 @@
                                             <h1>Your Rating:</h1>
                                             <ul class="user_star_rating" id="rating-stars">
                                                 @for($i=0;$i<5;$i++)
-                                                    <li><i class="fa fa-star-o" aria-hidden="true" id="star{{$i}}"></i></li>
+                                                    <li><i class="far fa-star" aria-hidden="true" id="star{{$i}}"></i></li>
                                                 @endfor
 {{--                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>--}}
 {{--                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>--}}

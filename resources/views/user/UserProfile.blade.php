@@ -53,6 +53,10 @@
                     <div class="left" style="" id="orders-left">.</div>
                     <div class="right" id="orders">Orders </div>
                 </div>
+                <div class="item-actions">
+
+                    <a href="{{route("chats",[$user->id])}}"> <div class="right" id="orders">Chat with Me </div></a>
+                </div>
                 <br style="clear: both">
                 <div class="item-actions">
                     <div class="left"  id="shopping-carts-left" style="">.</div>

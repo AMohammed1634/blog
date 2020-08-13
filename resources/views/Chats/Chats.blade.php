@@ -58,9 +58,14 @@
 
 
     <script src="{{ asset('js/app.js') }}" defer></script>
+
     <div id="app" class="">
         <chats :users="{{ $users }}" :auth_id="{{ auth()->user() }}" auth_name="{{auth()->user()->name}}"
-               img="{{auth()->user()->img}}"></chats>
+               img="{{auth()->user()->img}}"
+
+               :user="{{$user}}"
+
+        ></chats>
     </div>
 
 @endsection

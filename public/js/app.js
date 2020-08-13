@@ -1921,6 +1921,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
  // import $ from 'jquery'
 
@@ -1941,7 +1951,10 @@ __webpack_require__.r(__webpack_exports__);
       typingUser: null,
       isTyping: false,
       messageList: [],
-      messageContent: ""
+      messageContent: "",
+      typingNow: false,
+      write_from: null,
+      write_to: null
     };
   },
   props: ["users", "auth_id", 'auth_name', 'img'],
@@ -1964,28 +1977,55 @@ __webpack_require__.r(__webpack_exports__);
     //     }
     // })
 
-    window.Echo.channel("chat").listen('MessageSend', function (e) {
-      if (_this.chatWith != null) {
-        console.log(e);
+    window.Echo.channel("Typing").listen("TypingMessage", function (e) {
+      console.log(e);
 
-        if (_this.chatWith.id == e.message.message_from && _this.auth_id.id == e.message.message_to) {
-          console.log(e);
-
-          _this.messageList.push({
-            body: {
-              content: e.message.message,
-              created_at: e.message.created_at,
-              userName: _this.chatWith.name,
-              img: _this.imgPath + _this.chatWith.img
-            },
-            componentName: "guestMessage"
-          });
-        }
+      if (_this.chatWith != null && _this.chatWith.id == e.typing.write_from && _this.auth_id.id == e.typing.write_to && e.typing.is_writing_now == true) {
+        //is_writing_now
+        _this.typingNow = true;
+        _this.write_from = e.typing.write_from;
+        _this.write_to = e.typing.write_to;
+      } else {
+        _this.typingNow = false;
       }
     });
+    window.Echo.channel("App.User.".concat(this.auth_id.id)).listen('MessageSend', function (e) {
+      console.log(e); // if(this.chatWith.id == e.message.message_from && this.auth_id.id == e.message.message_to)
+
+      if (_this.chatWith && e.message.message_from == _this.chatWith.id) {
+        console.log(e);
+
+        _this.messageList.push({
+          body: {
+            content: e.message.message,
+            created_at: e.message.created_at,
+            userName: _this.chatWith.name,
+            img: _this.imgPath + _this.chatWith.img
+          },
+          componentName: "guestMessage"
+        });
+
+        new Audio("/sounds/slack.mp3").play();
+      }
+    });
+    setInterval(function () {
+      console.log("basket");
+
+      if (_this.chatWith != null) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/user/typingFalse/".concat(_this.chatWith.id, "/").concat(_this.auth_id.id)).then(function (response) {
+          console.log(response);
+        });
+      }
+    }, 3000);
   },
   computed: {},
   methods: {
+    updateNotTyping: function updateNotTyping() {
+      console.log("basket");
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/user/typingFalse/".concat(this.chatWith.id, "/").concat(this.auth_id.id)).then(function (response) {
+        console.log(response);
+      });
+    },
     updated: function updated() {
       this.scrollToBottom();
     },
@@ -2010,7 +2050,19 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.messageContent = "";
     },
-    sendTypingEvent: function sendTypingEvent() {// alert("typing ...")
+    sendTypingEvent: function sendTypingEvent() {
+      // alert("typing ...")
+      // Echo.join("chat").whisper("typing",this.auth_id);
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/user/typing/".concat(this.chatWith.id, "/").concat(this.auth_id.id)).then(function (response) {
+        console.log(response);
+      }); // let channel = Echo.private('chat')
+      //
+      // setTimeout( () => {
+      //     channel.whisper('typing', {
+      //         user: this.auth_id,
+      //         typing: true
+      //     })
+      // }, 300)
     },
     selectUser: function selectUser(user) {
       var _this2 = this;
@@ -30237,13 +30289,19 @@ var render = function() {
                       { staticClass: "card-header ui-sortable-handle" },
                       [
                         _c("h3", { staticClass: "card-title" }, [
-                          _vm._v("Chat With "),
+                          _vm._v("Chat With\n                            "),
                           _c("span", { staticClass: "badge badge-info" }, [
                             _vm._v(_vm._s(_vm.chatWith.name))
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "card-tools" })
+                        _c("div", { staticClass: "card-tools" }, [
+                          this.typingNow
+                            ? _c("div", { staticStyle: { color: "green" } }, [
+                                _vm._v("typing ...")
+                              ])
+                            : _vm._e()
+                        ])
                       ]
                     ),
                     _vm._v(" "),
@@ -30351,9 +30409,7 @@ var render = function() {
                                       }
                                     }
                                   })
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(0)
+                                ])
                               ]
                             )
                           ]
@@ -30404,7 +30460,8 @@ var render = function() {
                       _c("div", { staticClass: "contacts-list-info" }, [
                         _c("span", { staticClass: "contacts-list-name" }, [
                           _vm._v(
-                            _vm._s(user.name) + "\n                            "
+                            _vm._s(user.name) +
+                              "\n                                "
                           ),
                           _c(
                             "small",
@@ -30421,6 +30478,17 @@ var render = function() {
                                   ])
                             ]
                           )
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "contacts-list-msg" }, [
+                          _vm.chatWith != null &&
+                          _vm.typingNow == true &&
+                          user.id == _vm.write_from &&
+                          _vm.write_to == _vm.auth_id.id
+                            ? _c("div", { staticStyle: { color: "green" } }, [
+                                _vm._v("typing ...")
+                              ])
+                            : _vm._e()
                         ])
                       ])
                     ])
@@ -30434,23 +30502,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-append col-lg-2" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [
-          _vm._v("\n                                    Send "),
-          _c("i", { staticClass: "fas fa-paper-plane" })
-        ]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

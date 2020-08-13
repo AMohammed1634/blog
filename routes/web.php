@@ -171,3 +171,6 @@ Route::get("/AMassage","MessageController@AMassage");
  Route::get("/userMessages/{sender}/{recever}","ChatController@userMessages");
 
  Route::post("/messageSend/{user}","ChatController@messageSend");
+
+ Route::get("/user/typing/{userID}/{authID}","ChatController@typing");
+ Route::get("/user/typingFalse/{userID}/{authID}","ChatController@typingFalse");

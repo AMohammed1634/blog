@@ -2,30 +2,28 @@
 
 namespace App\Events;
 
-use App\message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSend implements ShouldBroadcastNow
+class TypingMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+    public $typing;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(message $message)
+    public function __construct($typing)
     {
         //
-        $this->message = $message;
+        $this->typing = $typing;
     }
 
     /**
@@ -35,7 +33,6 @@ class MessageSend implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-         return new Channel("App.User.".$this->message->message_to);
-//        return new Channel("chat");
+        return new Channel('Typing');
     }
 }

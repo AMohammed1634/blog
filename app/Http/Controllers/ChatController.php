@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSend;
+use App\Events\TypingMessage;
 use App\Http\Controllers\Controller;
 use App\message;
 use App\User;
 //use BeyondCode\LaravelWebSockets\Dashboard\Http\Controllers\SendMessage;
+use App\writing;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 //use App\Events\MessageSend;
@@ -78,5 +80,48 @@ class ChatController extends Controller
         return response()->json([
             'status' => 'success'
         ]);
+    }
+    public function typing(User $userID, User $authID){
+        $num = writing::where([
+            ['write_to',$userID->id],
+            ['write_from',$authID->id]
+        ])->get();
+        if(count($num) > 0){
+            $num[0]->is_writing_now = true;
+            $num[0]->save();
+            broadcast(new TypingMessage($num[0]))->toOthers();
+            return response()->json([
+                "status" =>"typing"
+            ]);
+        }
+        $num = new writing();
+        $num->is_writing_now = true;
+        $num->write_from = $authID->id;
+        $num->write_to = $userID->id;
+        $num->save();
+        broadcast(new TypingMessage($num))->toOthers();
+        return response()->json([
+            "status" =>"typing"
+        ]);
+    }
+
+    public function typingFalse(User $userID, User $authID){
+        $num = writing::where([
+            ['write_to',$userID->id],
+            ['write_from',$authID->id]
+        ])->get();
+        if(count($num) > 0){
+            $num[0]->is_writing_now = false;
+            $num[0]->save();
+            broadcast(new TypingMessage($num[0]))->toOthers();
+            return $num[0];
+        }
+        $num = new writing();
+        $num->is_writing_now = false;
+        $num->write_from = $authID->id;
+        $num->write_to = $userID->id;
+        $num->save();
+        broadcast(new TypingMessage($num))->toOthers();
+        return $num;
     }
 }

@@ -5,9 +5,11 @@
             <div class="direct-chat-messages" style="height: 540px">
                 <div class="card direct-chat direct-chat-primary" v-if="chatWith" style="height: 95%">
                     <div class="card-header ui-sortable-handle">
-                        <h3 class="card-title">Chat With <span class="badge badge-info">{{ chatWith.name }}</span></h3>
+                        <h3 class="card-title">Chat With
+                            <span class="badge badge-info">{{ chatWith.name }}</span>
+                        </h3>
                         <div class="card-tools">
-
+                            <div v-if="this.typingNow" style="color:green">typing ...</div>
                         </div>
                     </div>
                     <div class="card-body" style="display: block;height: 80%">
@@ -42,13 +44,14 @@
                                         class="form-control "
                                     />
                                 </div>
-                                <span class="input-group-append col-lg-2">
-                                    <button type="submit" class="btn btn-primary">
-                                        Send <i class="fas fa-paper-plane"></i>
-                                    </button>
-                                </span>
+<!--                                <span class="input-group-append col-lg-2">-->
+<!--                                    <button type="submit" class="btn btn-primary">-->
+<!--                                        Send <i class="fas fa-paper-plane"></i>-->
+<!--                                    </button>-->
+<!--                                </span>-->
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -68,6 +71,13 @@
                                 </small>
                             </span>
 
+                            <span class="contacts-list-msg">
+<!--                                <div v-if="this.typingNow" style="color:green">typing ...</div>-->
+                                 <div
+                                     v-if="chatWith != null && typingNow == true && user.id == write_from
+                                            && write_to == auth_id.id"
+                                     style="color:green">typing ...</div>
+                            </span>
                         </div>
                     </a>
                 </li>
@@ -100,10 +110,14 @@
                 isTyping: false,
                 messageList:[],
                 messageContent:"",
+                typingNow:false,
+                write_from:null,
+                write_to:null,
             }
         },
         props:[ "users" ,"auth_id",'auth_name','img'],
         created() {
+
             this.scrollToBottom();
             // window.Echo.channel(`App.User.${ this.auth_id.id }`).listen("MessageSend",(event)=>{
             //     console.log("ASDDD");
@@ -122,15 +136,28 @@
             // })
 
 
+            window.Echo.channel(`Typing`).listen("TypingMessage",(e)=>{
+                console.log(e);
 
-              window.Echo.channel(`chat`)
-              .listen('MessageSend', (e) => {
+                if(this.chatWith !=null && this.chatWith.id == e.typing.write_from
+                    && this.auth_id.id == e.typing.write_to
+                    && e.typing.is_writing_now == true
+                ){ //is_writing_now
+                    this.typingNow = true;
+                    this.write_from = e.typing.write_from;
+                    this.write_to = e.typing.write_to;
 
+                }else{
+                    this.typingNow = false;
+                }
+            });
 
-                  if(this.chatWith != null){
-                      console.log(e);
-                      if(this.chatWith.id == e.message.message_from && this.auth_id.id == e.message.message_to)
-                      {
+               window.Echo.channel(`App.User.${this.auth_id.id}`)
+               .listen('MessageSend', (e) => {
+                   console.log(e);
+                      // if(this.chatWith.id == e.message.message_from && this.auth_id.id == e.message.message_to)
+                   if(this.chatWith && e.message.message_from == this.chatWith.id)
+                   {
                           console.log(e);
                           this.messageList.push({
                               body:{
@@ -140,18 +167,41 @@
                                   img:this.imgPath + this.chatWith.img,
                               },
                               componentName: "guestMessage",
-                          })
-                      }
-                  }
+                          });
+                          (new Audio("/sounds/slack.mp3")).play();
 
-              });
+                      }
+
+
+               });
+
+
+            setInterval(()=>{
+                console.log("basket");
+                if(this.chatWith != null) {
+                    axios.get(`/user/typingFalse/${this.chatWith.id}/${this.auth_id.id}`).then(
+                        response => {
+                            console.log(response)
+                        }
+                    )
+                }
+            },3000)
 
 
         },
         computed:{
 
         },
+
         methods:{
+            updateNotTyping:function() {
+                console.log("basket");
+                axios.get(`/user/typingFalse/${this.chatWith.id}/${this.auth_id.id}`).then(
+                    response =>{
+                        console.log(response)
+                    }
+                )
+            },
             updated() {
               this.scrollToBottom()
             },
@@ -185,6 +235,21 @@
             },
             sendTypingEvent:function(){
                 // alert("typing ...")
+                // Echo.join("chat").whisper("typing",this.auth_id);
+
+                axios.get(`/user/typing/${this.chatWith.id}/${this.auth_id.id}`).then(
+                    response =>{
+                        console.log(response)
+                    }
+                )
+                // let channel = Echo.private('chat')
+                //
+                // setTimeout( () => {
+                //     channel.whisper('typing', {
+                //         user: this.auth_id,
+                //         typing: true
+                //     })
+                // }, 300)
             },
             selectUser:function (user){
                 this.chatWith = user;
@@ -209,7 +274,7 @@
                 console.log("444")
                 this.scrollToBottom();
             },
-        }
+        },
 
     }
 </script>

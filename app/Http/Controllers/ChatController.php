@@ -27,7 +27,7 @@ class ChatController extends Controller
 
             $user = -1;
         }
-        $users = User::all();
+        $users = \App\User::with("unseenMessages")->get();
         return \view("Chats.Chats",compact("users","user"));
     }
     public function fetchMessages(){

@@ -68,6 +68,14 @@ class User extends Authenticatable
         return $this->hasMany('App\message','message_to','id');
     }
 
+    public function unseenMessages(){
+        return
+            $this->hasMany(message::class,"message_from")
+                ->where([
+                    ["readed",0],
+                    ["message_to" , auth()->user()->id]
+                ]);
+    }
     public function messages_between(User $user){
         return message::where([
                     ["message_to",$this->id],

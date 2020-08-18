@@ -146,7 +146,26 @@
                                 <li><a href="#">shop</a></li>
 
                                 <li><a href="#">pages</a></li>
+                                @guest
+                                    <li>
+                                        <a href="{{ route("login") }}">
+                                            Contact Admin
+                                        </a>
+                                    </li>
+                                @else
+                                <li>
+                                    @if(auth()->user()->id != 1)
+                                        <a href="{{ route("chats",[1]) }}">
+                                            Contact Admin
+                                        </a>
+                                    @else
+                                        <a href="{{ route("chats",[6]) }}">
+                                            Contact Admin
+                                        </a>
+                                    @endif
+                                </li>
 
+                                @endguest
 
                             </ul>
                             <ul class="navbar_user">

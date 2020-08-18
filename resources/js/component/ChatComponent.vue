@@ -9,7 +9,7 @@
                             <span class="badge badge-info">{{ chatWith.name }}</span>
                         </h3>
                         <div class="card-tools">
-                            <div v-if="this.typingNow" style="color:green">typing ...</div>
+                            <div v-if="this.typingNow" style="color:#008000">typing ...</div>
                         </div>
                     </div>
                     <div class="card-body" style="display: block;height: 80%">
@@ -77,6 +77,13 @@
                                      v-if="chatWith != null && typingNow == true && user.id == write_from
                                             && write_to == auth_id.id"
                                      style="color:green">typing ...</div>
+                                 <div id="id" style="width: 20px;height: 20px;background-color: #53d9f0;
+                                        border-radius: 50%;text-align: center;margin: auto"
+                                      v-if="readed == false && unreadedUser.id != chatWith.id && unreadedUser.id == user.id">
+                                     1
+                                 </div>
+
+
                             </span>
                         </div>
                     </a>
@@ -113,6 +120,11 @@
                 typingNow:false,
                 write_from:null,
                 write_to:null,
+                unreadedMessages:[
+
+                ],
+                readed : true,
+                unreadedUser:null,
             }
         },
         props:[ "users" ,"auth_id",'auth_name','img',"user"],
@@ -153,7 +165,17 @@
                           });
                           (new Audio("/sounds/slack.mp3")).play();
 
-                      }
+                  }
+                   else
+                   {
+
+                      this.readed = false;
+                      this.unreadedUser = {
+                          id:e.message.message_from,
+
+                      };
+                       (new Audio("/sounds/slack.mp3")).play();
+                   }
 
 
                });
@@ -243,6 +265,10 @@
                 // }, 300)
             },
             selectUser:function (user){
+                if(this.unreadedUser != null && user.id == this.unreadedUser.id){
+                    this.readed = true;
+                }
+
                 this.chatWith = user;
                 // get messages between auth and user
                 console.log(`/userMessages/${this.auth_id.id}/${user.id}`);
@@ -265,6 +291,11 @@
                 console.log("444")
                 this.scrollToBottom();
             },
+            getUsers:function(){
+                axios.get("/chats/users").then(response =>{
+                    this.users = respone.data;
+                })
+            }
         },
 
     }

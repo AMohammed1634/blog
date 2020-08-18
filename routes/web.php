@@ -135,7 +135,7 @@ Route::get('/admin/dashboard','AdminController@dashboard')->name('dashboard')->m
 Route::get('/admin/dashboard/allOrders','AdminController@allOrders')->name('allOrders')->middleware("admin");
 Route::get('/admin/dashboard/allUpdatedProducts','AdminController@allUpdatedProducts')->name('allUpdatedProducts')->middleware("admin");
 
-
+Route::post('/admin/dashboard/allUpdatedProducts/{product}/save','AdminController@saveChanges');
 
 
 Route::get("/","HomeController@index")->name("home");
@@ -174,3 +174,12 @@ Route::get("/AMassage","MessageController@AMassage");
 
  Route::get("/user/typing/{userID}/{authID}","ChatController@typing");
  Route::get("/user/typingFalse/{userID}/{authID}","ChatController@typingFalse");
+
+
+ Route::get("/ttt",function (){
+     return \App\User::with("unseenMessages")->get();
+ });
+
+ Route::get("/chats/users",function(){
+
+ });

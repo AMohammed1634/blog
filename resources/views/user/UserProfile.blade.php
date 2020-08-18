@@ -55,7 +55,11 @@
                 </div>
                 <div class="item-actions">
 
-                    <a href="{{route("chats",[$user->id])}}"> <div class="right" id="orders">Chat with Me </div></a>
+                    @if(auth()->user()->id != $user->id)
+                    <a href="{{route("chats",[$user->id])}}">
+                        <div class="right" id="orders">Chat with Me </div>
+                    </a>
+                    @endif
                 </div>
                 <br style="clear: both">
                 <div class="item-actions">
@@ -217,6 +221,7 @@
                         <div class="product" style="margin-top: 10px">
                             <img src="/storage/{{$product->img}}">
                             <div class="data">
+                                <h2>{{$product->id}}</h2>
                                 <h3>Name : @if( is_null($product->name)) No Value @else {{$product->name }} @endif</h3>
 
                                 <div class="product_price">@if( is_null($product->name)) price Not Avaliable @else {{$product->price }} @endif</div>

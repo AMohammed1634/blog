@@ -45,7 +45,16 @@ class AdminController extends Controller
 //allUpdatedProducts
     public function allUpdatedProducts()
     {
-        $updatedProducts = updatedProduct::whereNull('price')->latest("id")->get();
-        return view('admin.viewDetails',compact('updatedProducts'));
+        $updatedProducts = updatedProduct::latest("id")->paginate(5);
+        return view('admin.updatedProducts',compact('updatedProducts'));
+    }
+    public function saveChanges(Request $request,updatedProduct $product){
+        $product->price = $request->price;
+        $product->save();
+//        $p = product::find($product->id);
+//        $p->price = $request->price;
+//        $p->save();
+//        dd($product);
+        return redirect()->back();
     }
 }

@@ -1931,6 +1931,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
  // import $ from 'jquery'
 
@@ -1954,7 +1961,10 @@ __webpack_require__.r(__webpack_exports__);
       messageContent: "",
       typingNow: false,
       write_from: null,
-      write_to: null
+      write_to: null,
+      unreadedMessages: [],
+      readed: true,
+      unreadedUser: null
     };
   },
   props: ["users", "auth_id", 'auth_name', 'img', "user"],
@@ -1990,6 +2000,12 @@ __webpack_require__.r(__webpack_exports__);
           componentName: "guestMessage"
         });
 
+        new Audio("/sounds/slack.mp3").play();
+      } else {
+        _this.readed = false;
+        _this.unreadedUser = {
+          id: e.message.message_from
+        };
         new Audio("/sounds/slack.mp3").play();
       }
     });
@@ -2059,6 +2075,10 @@ __webpack_require__.r(__webpack_exports__);
     selectUser: function selectUser(user) {
       var _this2 = this;
 
+      if (this.unreadedUser != null && user.id == this.unreadedUser.id) {
+        this.readed = true;
+      }
+
       this.chatWith = user; // get messages between auth and user
 
       console.log("/userMessages/".concat(this.auth_id.id, "/").concat(user.id));
@@ -2078,6 +2098,13 @@ __webpack_require__.r(__webpack_exports__);
       });
       console.log("444");
       this.scrollToBottom();
+    },
+    getUsers: function getUsers() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/chats/users").then(function (response) {
+        _this3.users = respone.data;
+      });
     }
   }
 });
@@ -30289,7 +30316,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "card-tools" }, [
                           this.typingNow
-                            ? _c("div", { staticStyle: { color: "green" } }, [
+                            ? _c("div", { staticStyle: { color: "#008000" } }, [
                                 _vm._v("typing ...")
                               ])
                             : _vm._e()
@@ -30480,6 +30507,30 @@ var render = function() {
                             ? _c("div", { staticStyle: { color: "green" } }, [
                                 _vm._v("typing ...")
                               ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.readed == false &&
+                          _vm.unreadedUser.id != _vm.chatWith.id &&
+                          _vm.unreadedUser.id == user.id
+                            ? _c(
+                                "div",
+                                {
+                                  staticStyle: {
+                                    width: "20px",
+                                    height: "20px",
+                                    "background-color": "#53d9f0",
+                                    "border-radius": "50%",
+                                    "text-align": "center",
+                                    margin: "auto"
+                                  },
+                                  attrs: { id: "id" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     1\n                                 "
+                                  )
+                                ]
+                              )
                             : _vm._e()
                         ])
                       ])

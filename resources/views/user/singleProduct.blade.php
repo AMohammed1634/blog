@@ -184,37 +184,11 @@
                                  padding: 10px 28px">
                                 <div class="carousel-inner" style="">
                                     <div class="carousel-item active" data-interval="10000">
-                                        <div class="card" style="width: 18rem;display: inline-block;margin:0px 35px;
-                                                            ">
-                                            <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
-                                                 alt="..." style="height: 302px">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                            </div>
-                                        </div>
+                                        
 
-                                        <div class="card" style="width: 18rem;display: inline-block;
-                                                           margin:0px 35px; ">
-                                            <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
-                                                 alt="..." style="height: 302px">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                            </div>
-                                        </div>
-                                        <div class="card" style="width: 18rem;display: inline-block;
-                                                    margin:0px 35px;   ">
-                                            <img src="/storage/product_images/{{$product->img}}" class="card-img-top"
-                                                 alt="..." style="height: 302px">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Card title</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                            </div>
-                                        </div>
+                                        
+                                        Scroll to see it 
+                                        
                                     </div>
 
 

@@ -59,6 +59,7 @@ class LoginController extends Controller
         if(!$isEmail){ /*is Mobile phone*/
             if (Auth::attempt(array('phone' => $request->email, 'password' => $request->password))){
                 //return redirect(session('links')[2])->withInput()->withErrors();
+                
                 $this->updateStatus();
                 return Redirect::route('categories');
 
@@ -70,6 +71,7 @@ class LoginController extends Controller
 //        dd($isEmail,$pattern);
         if (Auth::attempt(array('email' => $request->email, 'password' => $request->password))){
             //return redirect(session('links')[2])->withInput()->withErrors();
+            //dd(auth()->user());
             $this->updateStatus();
             return Redirect::route('categories');
 

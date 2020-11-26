@@ -138,20 +138,12 @@ class Connection extends EventEmitter implements ConnectionInterface
 
     public function getRemoteAddress()
     {
-        if (!\is_resource($this->stream)) {
-            return null;
-        }
-
-        return $this->parseAddress(\stream_socket_get_name($this->stream, true));
+        return $this->parseAddress(@\stream_socket_get_name($this->stream, true));
     }
 
     public function getLocalAddress()
     {
-        if (!\is_resource($this->stream)) {
-            return null;
-        }
-
-        return $this->parseAddress(\stream_socket_get_name($this->stream, false));
+        return $this->parseAddress(@\stream_socket_get_name($this->stream, false));
     }
 
     private function parseAddress($address)

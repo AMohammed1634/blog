@@ -193,7 +193,7 @@ final class MockMethod
         $deprecation = $this->deprecation;
 
         if (null !== $this->deprecation) {
-            $deprecation         = "The {$this->className}::{$this->methodName} method is deprecated ({$this->deprecation}).";
+            $deprecation         = "The $this->className::$this->methodName method is deprecated ($this->deprecation).";
             $deprecationTemplate = $this->getTemplate('deprecation.tpl');
 
             $deprecationTemplate->setVar([
@@ -284,7 +284,6 @@ final class MockMethod
                     } else {
                         try {
                             $class = $parameter->getClass();
-                            // @codeCoverageIgnoreStart
                         } catch (\ReflectionException $e) {
                             throw new RuntimeException(
                                 \sprintf(
@@ -297,7 +296,6 @@ final class MockMethod
                                 $e
                             );
                         }
-                        // @codeCoverageIgnoreEnd
 
                         if ($class !== null) {
                             $typeDeclaration = $class->getName() . ' ';
@@ -309,7 +307,6 @@ final class MockMethod
                     if ($parameter->isDefaultValueAvailable()) {
                         try {
                             $value = \var_export($parameter->getDefaultValue(), true);
-                            // @codeCoverageIgnoreStart
                         } catch (\ReflectionException $e) {
                             throw new RuntimeException(
                                 $e->getMessage(),
@@ -317,8 +314,6 @@ final class MockMethod
                                 $e
                             );
                         }
-                        // @codeCoverageIgnoreEnd
-
                         $default = ' = ' . $value;
                     } elseif ($parameter->isOptional()) {
                         $default = ' = null';

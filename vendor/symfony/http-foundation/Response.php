@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-// Help opcache.preload discover always-needed symbols
-class_exists(ResponseHeaderBag::class);
-
 /**
  * Response represents an HTTP response.
  *
@@ -270,12 +267,10 @@ class Response
             $this->setContent(null);
             $headers->remove('Content-Type');
             $headers->remove('Content-Length');
-            // prevent PHP from sending the Content-Type header based on default_mimetype
-            ini_set('default_mimetype', '');
         } else {
             // Content-type based on the Request
             if (!$headers->has('Content-Type')) {
-                $format = $request->getRequestFormat(null);
+                $format = $request->getRequestFormat();
                 if (null !== $format && $mimeType = $request->getMimeType($format)) {
                     $headers->set('Content-Type', $mimeType);
                 }
@@ -633,7 +628,7 @@ class Response
     }
 
     /**
-     * Returns true if the response must be revalidated by shared caches once it has become stale.
+     * Returns true if the response must be revalidated by caches.
      *
      * This method indicates that the response must not be served stale by a
      * cache in any circumstance without first revalidating with the origin.
@@ -1029,7 +1024,7 @@ class Response
      */
     public function getVary(): array
     {
-        if (!$vary = $this->headers->all('Vary')) {
+        if (!$vary = $this->headers->get('Vary', null, false)) {
             return [];
         }
 
@@ -1213,11 +1208,11 @@ class Response
      *
      * @final
      */
-    public static function closeOutputBuffers(int $targetLevel, bool $flush): void
+    public static function closeOutputBuffers(int $targetLevel, bool $flush)
     {
         $status = ob_get_status(true);
         $level = \count($status);
-        $flags = \PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? \PHP_OUTPUT_HANDLER_FLUSHABLE : \PHP_OUTPUT_HANDLER_CLEANABLE);
+        $flags = PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE);
 
         while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
             if ($flush) {
@@ -1235,7 +1230,7 @@ class Response
      *
      * @final
      */
-    protected function ensureIEOverSSLCompatibility(Request $request): void
+    protected function ensureIEOverSSLCompatibility(Request $request)
     {
         if (false !== stripos($this->headers->get('Content-Disposition'), 'attachment') && 1 == preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT'), $match) && true === $request->isSecure()) {
             if ((int) preg_replace('/(MSIE )(.*?);/', '$2', $match[0]) < 9) {

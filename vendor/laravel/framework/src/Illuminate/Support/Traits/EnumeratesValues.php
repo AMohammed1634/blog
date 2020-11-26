@@ -143,9 +143,9 @@ trait EnumeratesValues
      */
     public function dd(...$args)
     {
-        $this->dump(...$args);
+        call_user_func_array([$this, 'dump'], $args);
 
-        exit(1);
+        die(1);
     }
 
     /**
@@ -402,7 +402,7 @@ trait EnumeratesValues
     /**
      * Apply the callback if the value is truthy.
      *
-     * @param  bool|mixed  $value
+     * @param  bool  $value
      * @param  callable  $callback
      * @param  callable  $default
      * @return static|mixed
@@ -490,28 +490,6 @@ trait EnumeratesValues
     public function where($key, $operator = null, $value = null)
     {
         return $this->filter($this->operatorForWhere(...func_get_args()));
-    }
-
-    /**
-     * Filter items where the given key is not null.
-     *
-     * @param  string|null  $key
-     * @return static
-     */
-    public function whereNull($key = null)
-    {
-        return $this->whereStrict($key, null);
-    }
-
-    /**
-     * Filter items where the given key is null.
-     *
-     * @param  string|null  $key
-     * @return static
-     */
-    public function whereNotNull($key = null)
-    {
-        return $this->where($key, '!==', null);
     }
 
     /**
@@ -626,7 +604,7 @@ trait EnumeratesValues
     /**
      * Pass the collection to the given callback and return the result.
      *
-     * @param  callable  $callback
+     * @param  callable $callback
      * @return mixed
      */
     public function pipe(callable $callback)
@@ -847,7 +825,7 @@ trait EnumeratesValues
      * Get an operator checker callback.
      *
      * @param  string  $key
-     * @param  string|null  $operator
+     * @param  string  $operator
      * @param  mixed  $value
      * @return \Closure
      */

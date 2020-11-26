@@ -7,15 +7,12 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Concerns\BuildsQueries;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
-use ReflectionClass;
-use ReflectionMethod;
 
 /**
  * @property-read HigherOrderBuilderProxy $orWhere
@@ -194,10 +191,6 @@ class Builder
             return $this;
         }
 
-        if ($id !== null && $this->model->getKeyType() === 'string') {
-            $id = (string) $id;
-        }
-
         return $this->where($this->model->getQualifiedKeyName(), '=', $id);
     }
 
@@ -215,19 +208,15 @@ class Builder
             return $this;
         }
 
-        if ($id !== null && $this->model->getKeyType() === 'string') {
-            $id = (string) $id;
-        }
-
         return $this->where($this->model->getQualifiedKeyName(), '!=', $id);
     }
 
     /**
      * Add a basic where clause to the query.
      *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
-     * @param  mixed  $operator
-     * @param  mixed  $value
+     * @param  \Closure|string|array  $column
+     * @param  mixed   $operator
+     * @param  mixed   $value
      * @param  string  $boolean
      * @return $this
      */
@@ -245,23 +234,9 @@ class Builder
     }
 
     /**
-     * Add a basic where clause to the query, and return the first result.
-     *
-     * @param  \Closure|string|array|\Illuminate\Database\Query\Expression  $column
-     * @param  mixed  $operator
-     * @param  mixed  $value
-     * @param  string  $boolean
-     * @return \Illuminate\Database\Eloquent\Model|static
-     */
-    public function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
-    {
-        return $this->where($column, $operator, $value, $boolean)->first();
-    }
-
-    /**
      * Add an "or where" clause to the query.
      *
-     * @param  \Closure|array|string|\Illuminate\Database\Query\Expression  $column
+     * @param  \Closure|array|string  $column
      * @param  mixed  $operator
      * @param  mixed  $value
      * @return \Illuminate\Database\Eloquent\Builder|static
@@ -278,7 +253,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return $this
      */
     public function latest($column = null)
@@ -295,7 +270,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return $this
      */
     public function oldest($column = null)
@@ -504,20 +479,20 @@ class Builder
     /**
      * Get a single column's value from the first result of a query.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return mixed
      */
     public function value($column)
     {
         if ($result = $this->first([$column])) {
-            return $result->{Str::afterLast($column, '.')};
+            return $result->{$column};
         }
     }
 
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array|string  $columns
+     * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
@@ -537,7 +512,7 @@ class Builder
     /**
      * Get the hydrated models without eager loading.
      *
-     * @param  array|string  $columns
+     * @param  array  $columns
      * @return \Illuminate\Database\Eloquent\Model[]|static[]
      */
     public function getModels($columns = ['*'])
@@ -687,7 +662,7 @@ class Builder
     /**
      * Get an array with the values of a given column.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @param  string|null  $key
      * @return \Illuminate\Support\Collection
      */
@@ -712,7 +687,7 @@ class Builder
     /**
      * Paginate the given query.
      *
-     * @param  int|null  $perPage
+     * @param  int  $perPage
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
@@ -739,7 +714,7 @@ class Builder
     /**
      * Paginate the given query into a simple paginator.
      *
-     * @param  int|null  $perPage
+     * @param  int  $perPage
      * @param  array  $columns
      * @param  string  $pageName
      * @param  int|null  $page
@@ -802,7 +777,7 @@ class Builder
     /**
      * Increment a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -817,7 +792,7 @@ class Builder
     /**
      * Decrement a column's value by a given amount.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @param  float|int  $amount
      * @param  array  $extra
      * @return int
@@ -1144,15 +1119,7 @@ class Builder
     protected function createSelectWithConstraint($name)
     {
         return [explode(':', $name)[0], static function ($query) use ($name) {
-            $query->select(array_map(static function ($column) use ($query) {
-                if (Str::contains($column, '.')) {
-                    return $column;
-                }
-
-                return $query instanceof BelongsToMany
-                        ? $query->getRelated()->getTable().'.'.$column
-                        : $column;
-            }, explode(',', explode(':', $name)[1])));
+            $query->select(explode(',', explode(':', $name)[1]));
         }];
     }
 
@@ -1277,7 +1244,7 @@ class Builder
     /**
      * Qualify the given column name by the model's table.
      *
-     * @param  string|\Illuminate\Database\Query\Expression  $column
+     * @param  string  $column
      * @return string
      */
     public function qualifyColumn($column)
@@ -1368,16 +1335,14 @@ class Builder
         }
 
         if (static::hasGlobalMacro($method)) {
-            $callable = static::$macros[$method];
-
-            if ($callable instanceof Closure) {
-                $callable = $callable->bindTo($this, static::class);
+            if (static::$macros[$method] instanceof Closure) {
+                return call_user_func_array(static::$macros[$method]->bindTo($this, static::class), $parameters);
             }
 
-            return $callable(...$parameters);
+            return call_user_func_array(static::$macros[$method], $parameters);
         }
 
-        if ($this->model !== null && method_exists($this->model, $scope = 'scope'.ucfirst($method))) {
+        if (method_exists($this->model, $scope = 'scope'.ucfirst($method))) {
             return $this->callScope([$this->model, $scope], $parameters);
         }
 
@@ -1407,43 +1372,15 @@ class Builder
             return;
         }
 
-        if ($method === 'mixin') {
-            return static::registerMixin($parameters[0], $parameters[1] ?? true);
-        }
-
         if (! static::hasGlobalMacro($method)) {
             static::throwBadMethodCallException($method);
         }
 
-        $callable = static::$macros[$method];
-
-        if ($callable instanceof Closure) {
-            $callable = $callable->bindTo(null, static::class);
+        if (static::$macros[$method] instanceof Closure) {
+            return call_user_func_array(Closure::bind(static::$macros[$method], null, static::class), $parameters);
         }
 
-        return $callable(...$parameters);
-    }
-
-    /**
-     * Register the given mixin with the builder.
-     *
-     * @param  string  $mixin
-     * @param  bool  $replace
-     * @return void
-     */
-    protected static function registerMixin($mixin, $replace)
-    {
-        $methods = (new ReflectionClass($mixin))->getMethods(
-                ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
-            );
-
-        foreach ($methods as $method) {
-            if ($replace || ! static::hasGlobalMacro($method->name)) {
-                $method->setAccessible(true);
-
-                static::macro($method->name, $method->invoke($mixin));
-            }
-        }
+        return call_user_func_array(static::$macros[$method], $parameters);
     }
 
     /**

@@ -4,15 +4,15 @@ namespace Facade\Ignition\ErrorPage;
 
 use Closure;
 use Exception;
-use Facade\FlareClient\Report;
-use Facade\Ignition\Ignition;
-use Facade\Ignition\IgnitionConfig;
-use Facade\Ignition\Solutions\SolutionTransformer;
-use Illuminate\Contracts\Support\Arrayable;
-use Laravel\Telescope\Http\Controllers\HomeController;
-use Laravel\Telescope\IncomingExceptionEntry;
-use Laravel\Telescope\Telescope;
 use Throwable;
+use Facade\Ignition\Ignition;
+use Facade\FlareClient\Report;
+use Laravel\Telescope\Telescope;
+use Facade\Ignition\IgnitionConfig;
+use Illuminate\Contracts\Support\Arrayable;
+use Laravel\Telescope\IncomingExceptionEntry;
+use Facade\Ignition\Solutions\SolutionTransformer;
+use Laravel\Telescope\Http\Controllers\HomeController;
 
 class ErrorPageViewModel implements Arrayable
 {
@@ -109,14 +109,10 @@ class ErrorPageViewModel implements Arrayable
         return $solutions;
     }
 
-    protected function shareEndpoint(): string
+    protected function shareEndpoint()
     {
-        try {
-            // use string notation as L5.5 and L5.6 don't support array notation yet
-            return action('\Facade\Ignition\Http\Controllers\ShareReportController');
-        } catch (Exception $exception) {
-            return '';
-        }
+        // use string notation as L5.5 and L5.6 don't support array notation yet
+        return action('\Facade\Ignition\Http\Controllers\ShareReportController');
     }
 
     public function report(): array

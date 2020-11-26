@@ -21,6 +21,7 @@ use PHPUnit\Framework\Warning;
 use PHPUnit\TextUI\ResultPrinter;
 use PHPUnit\Util\Exception;
 use PHPUnit\Util\Filter;
+use ReflectionClass;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
@@ -48,7 +49,7 @@ final class TeamCity extends ResultPrinter
      */
     public function printResult(TestResult $result): void
     {
-        $this->printHeader($result);
+        $this->printHeader();
         $this->printFooter($result);
     }
 
@@ -198,13 +199,13 @@ final class TeamCity extends ResultPrinter
 
         if (\class_exists($suiteName, false)) {
             $fileName                   = self::getFileName($suiteName);
-            $parameters['locationHint'] = "php_qn://{$fileName}::\\{$suiteName}";
+            $parameters['locationHint'] = "php_qn://$fileName::\\$suiteName";
         } else {
             $split = \explode('::', $suiteName);
 
             if (\count($split) === 2 && \class_exists($split[0]) && \method_exists($split[0], $split[1])) {
                 $fileName                   = self::getFileName($split[0]);
-                $parameters['locationHint'] = "php_qn://{$fileName}::\\{$suiteName}";
+                $parameters['locationHint'] = "php_qn://$fileName::\\$suiteName";
                 $parameters['name']         = $split[1];
             }
         }
@@ -248,7 +249,7 @@ final class TeamCity extends ResultPrinter
         if ($test instanceof TestCase) {
             $className              = \get_class($test);
             $fileName               = self::getFileName($className);
-            $params['locationHint'] = "php_qn://{$fileName}::\\{$className}::{$testName}";
+            $params['locationHint'] = "php_qn://$fileName::\\$className::$testName";
         }
 
         $this->printEvent('testStarted', $params);
@@ -276,7 +277,7 @@ final class TeamCity extends ResultPrinter
 
     private function printEvent(string $eventName, array $params = []): void
     {
-        $this->write("\n##teamcity[{$eventName}");
+        $this->write("\n##teamcity[$eventName");
 
         if ($this->flowId) {
             $params['flowId'] = $this->flowId;
@@ -284,7 +285,7 @@ final class TeamCity extends ResultPrinter
 
         foreach ($params as $key => $value) {
             $escapedValue = self::escapeValue((string) $value);
-            $this->write(" {$key}='{$escapedValue}'");
+            $this->write(" $key='$escapedValue'");
         }
 
         $this->write("]\n");
@@ -356,8 +357,7 @@ final class TeamCity extends ResultPrinter
     private static function getFileName($className): string
     {
         try {
-            return (new \ReflectionClass($className))->getFileName();
-            // @codeCoverageIgnoreStart
+            return (new ReflectionClass($className))->getFileName();
         } catch (\ReflectionException $e) {
             throw new Exception(
                 $e->getMessage(),
@@ -365,7 +365,6 @@ final class TeamCity extends ResultPrinter
                 $e
             );
         }
-        // @codeCoverageIgnoreEnd
     }
 
     /**

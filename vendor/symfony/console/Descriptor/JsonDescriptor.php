@@ -100,18 +100,24 @@ class JsonDescriptor extends Descriptor
         $this->write(json_encode($data, $flags));
     }
 
-    private function getInputArgumentData(InputArgument $argument): array
+    /**
+     * @return array
+     */
+    private function getInputArgumentData(InputArgument $argument)
     {
         return [
             'name' => $argument->getName(),
             'is_required' => $argument->isRequired(),
             'is_array' => $argument->isArray(),
             'description' => preg_replace('/\s*[\r\n]\s*/', ' ', $argument->getDescription()),
-            'default' => \INF === $argument->getDefault() ? 'INF' : $argument->getDefault(),
+            'default' => INF === $argument->getDefault() ? 'INF' : $argument->getDefault(),
         ];
     }
 
-    private function getInputOptionData(InputOption $option): array
+    /**
+     * @return array
+     */
+    private function getInputOptionData(InputOption $option)
     {
         return [
             'name' => '--'.$option->getName(),
@@ -120,11 +126,14 @@ class JsonDescriptor extends Descriptor
             'is_value_required' => $option->isValueRequired(),
             'is_multiple' => $option->isArray(),
             'description' => preg_replace('/\s*[\r\n]\s*/', ' ', $option->getDescription()),
-            'default' => \INF === $option->getDefault() ? 'INF' : $option->getDefault(),
+            'default' => INF === $option->getDefault() ? 'INF' : $option->getDefault(),
         ];
     }
 
-    private function getInputDefinitionData(InputDefinition $definition): array
+    /**
+     * @return array
+     */
+    private function getInputDefinitionData(InputDefinition $definition)
     {
         $inputArguments = [];
         foreach ($definition->getArguments() as $name => $argument) {
@@ -139,7 +148,10 @@ class JsonDescriptor extends Descriptor
         return ['arguments' => $inputArguments, 'options' => $inputOptions];
     }
 
-    private function getCommandData(Command $command): array
+    /**
+     * @return array
+     */
+    private function getCommandData(Command $command)
     {
         $command->getSynopsis();
         $command->mergeApplicationDefinition(false);

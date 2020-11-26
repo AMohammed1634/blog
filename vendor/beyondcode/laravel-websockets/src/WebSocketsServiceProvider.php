@@ -25,9 +25,11 @@ class WebSocketsServiceProvider extends ServiceProvider
             __DIR__.'/../config/websockets.php' => base_path('config/websockets.php'),
         ], 'config');
 
-        $this->publishes([
-            __DIR__.'/../database/migrations/0000_00_00_000000_create_websockets_statistics_entries_table.php' => database_path('migrations/0000_00_00_000000_create_websockets_statistics_entries_table.php'),
-        ], 'migrations');
+        if (! class_exists('CreateWebSocketsStatisticsEntries')) {
+            $this->publishes([
+                __DIR__.'/../database/migrations/create_websockets_statistics_entries_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_websockets_statistics_entries_table.php'),
+            ], 'migrations');
+        }
 
         $this
             ->registerRoutes()
@@ -38,7 +40,6 @@ class WebSocketsServiceProvider extends ServiceProvider
         $this->commands([
             Console\StartWebSocketServer::class,
             Console\CleanStatistics::class,
-            Console\RestartWebSocketServer::class,
         ]);
     }
 

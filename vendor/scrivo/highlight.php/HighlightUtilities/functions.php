@@ -29,9 +29,6 @@
 
 namespace HighlightUtilities;
 
-require_once __DIR__ . '/_internals.php';
-require_once __DIR__ . '/_themeColors.php';
-
 /**
  * Get a list of available stylesheets.
  *
@@ -70,25 +67,6 @@ function getAvailableStyleSheets($filePaths = false)
     }
 
     return $results;
-}
-
-/**
- * Get the RGB representation used for the background of a given theme as an
- * array of three numbers.
- *
- * @api
- *
- * @since 9.18.1.1
- *
- * @param string $name The stylesheet name (with or without the extension)
- *
- * @throws \DomainException when no stylesheet with this name exists
- *
- * @return float[] An array representing RGB numerical values
- */
-function getThemeBackgroundColor($name)
-{
-    return _getThemeBackgroundColor(_getNoCssExtension($name));
 }
 
 /**
@@ -143,49 +121,14 @@ function getStyleSheetFolder()
  */
 function getStyleSheetPath($name)
 {
-    $name = _getNoCssExtension($name);
+    if (substr($name, -4, 4) === ".css") {
+        $name = preg_replace("/\.css$/", "", $name);
+    }
+
     $path = implode(DIRECTORY_SEPARATOR, array(getStyleSheetFolder(), $name)) . ".css";
 
     if (!file_exists($path)) {
         throw new \DomainException("There is no stylesheet with by the name of '$name'.");
-    }
-
-    return $path;
-}
-
-/**
- * Get the directory path for the bundled languages folder.
- *
- * @api
- *
- * @since 9.18.1.4
- *
- * @return string An absolute path to the bundled languages folder
- */
-function getLanguagesFolder()
-{
-    return __DIR__ . '/../Highlight/languages';
-}
-
-/**
- * Get the file path for the specified bundled language definition.
- *
- * @api
- *
- * @since 9.18.1.4
- *
- * @param string $name The slug of the language to look for
- *
- * @throws \DomainException when the no definition for this language exists
- *
- * @return string
- */
-function getLanguageDefinitionPath($name)
-{
-    $path = getLanguagesFolder() . '/' . $name . '.json';
-
-    if (!file_exists($path)) {
-        throw new \DomainException("There is no language definition for $name");
     }
 
     return $path;
@@ -211,41 +154,28 @@ function splitCodeIntoArray($html)
         throw new \RuntimeException("The DOM extension is not loaded but is required.");
     }
 
-    if (trim($html) === "") {
-        return array();
-    }
-
     $dom = new \DOMDocument();
 
-    // https://stackoverflow.com/a/8218649
-    if (!$dom->loadHTML(mb_convert_encoding($html, "HTML-ENTITIES", "UTF-8"))) {
+    if (!$dom->loadHTML($html)) {
         throw new \UnexpectedValueException("The given HTML could not be parsed correctly.");
     }
 
-    $xpath = new \DOMXPath($dom);
-    $spans = $xpath->query("//span[contains(text(), '\n') or contains(text(), '\r\n')]");
+    $spans = $dom->getElementsByTagName("span");
 
     /** @var \DOMElement $span */
     foreach ($spans as $span) {
-        $closingTags = '';
-        $openingTags = '';
-        $curr = $span;
-
-        while ($curr->tagName === 'span') {
-            $closingTags .= '</span>';
-            $openingTags = sprintf('<span class="%s">%s', $curr->getAttribute("class"), $openingTags);
-
-            $curr = $curr->parentNode;
-        }
-
+        $classes = $span->getAttribute("class");
         $renderedSpan = $dom->saveHTML($span);
-        $finished = preg_replace(
-            '/\R/u',
-            $closingTags . PHP_EOL . $openingTags,
-            $renderedSpan
-        );
-        $html = str_replace($renderedSpan, $finished, $html);
+
+        if (preg_match('/\R/', $renderedSpan)) {
+            $finished = preg_replace(
+                '/\R/',
+                sprintf('</span>%s<span class="%s">', PHP_EOL, $classes),
+                $renderedSpan
+            );
+            $html = str_replace($renderedSpan, $finished, $html);
+        }
     }
 
-    return preg_split('/\R/u', $html);
+    return preg_split('/\R/', $html);
 }

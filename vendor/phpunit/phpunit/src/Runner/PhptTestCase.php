@@ -38,17 +38,17 @@ final class PhptTestCase implements SelfDescribing, Test
         'auto_prepend_file=',
         'disable_functions=',
         'display_errors=1',
-        'docref_ext=.html',
         'docref_root=',
+        'docref_ext=.html',
         'error_append_string=',
         'error_prepend_string=',
         'error_reporting=-1',
         'html_errors=0',
         'log_errors=0',
         'magic_quotes_runtime=0',
+        'output_handler=',
         'open_basedir=',
         'output_buffering=Off',
-        'output_handler=',
         'report_memleaks=0',
         'report_zend_debug=0',
         'safe_mode=0',
@@ -179,7 +179,7 @@ final class PhptTestCase implements SelfDescribing, Test
         }
 
         try {
-            $this->assertPhptExpectation($sections, $this->output);
+            $this->assertPhptExpectation($sections, $jobResult['stdout']);
         } catch (AssertionFailedError $e) {
             $failure = $e;
 
@@ -397,20 +397,20 @@ final class PhptTestCase implements SelfDescribing, Test
         $section  = '';
 
         $unsupportedSections = [
-            'CGI',
-            'COOKIE',
-            'DEFLATE_POST',
-            'EXPECTHEADERS',
-            'EXTENSIONS',
-            'GET',
-            'GZIP_POST',
-            'HEADERS',
-            'PHPDBG',
-            'POST',
-            'POST_RAW',
-            'PUT',
             'REDIRECTTEST',
             'REQUEST',
+            'POST',
+            'PUT',
+            'POST_RAW',
+            'GZIP_POST',
+            'DEFLATE_POST',
+            'GET',
+            'COOKIE',
+            'HEADERS',
+            'CGI',
+            'EXPECTHEADERS',
+            'EXTENSIONS',
+            'PHPDBG',
         ];
 
         $lineNr = 0;
@@ -447,7 +447,7 @@ final class PhptTestCase implements SelfDescribing, Test
         foreach ($unsupportedSections as $section) {
             if (isset($sections[$section])) {
                 throw new Exception(
-                    "PHPUnit does not support PHPT {$section} sections"
+                    "PHPUnit does not support PHPT $section sections"
                 );
             }
         }
@@ -597,19 +597,11 @@ final class PhptTestCase implements SelfDescribing, Test
 
     private function cleanupForCoverage(): array
     {
-        $coverage = [];
         $files    = $this->getCoverageFiles();
+        $coverage = @\unserialize(\file_get_contents($files['coverage']));
 
-        if (\file_exists($files['coverage'])) {
-            $buffer = @\file_get_contents($files['coverage']);
-
-            if ($buffer !== false) {
-                $coverage = @\unserialize($buffer);
-
-                if ($coverage === false) {
-                    $coverage = [];
-                }
-            }
+        if ($coverage === false) {
+            $coverage = [];
         }
 
         foreach ($files as $file) {

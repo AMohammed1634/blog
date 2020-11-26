@@ -29,7 +29,6 @@ class Question
     private $validator;
     private $default;
     private $normalizer;
-    private $trimmable = true;
 
     /**
      * @param string $question The question to ask to the user
@@ -220,11 +219,8 @@ class Question
      */
     public function setMaxAttempts($attempts)
     {
-        if (null !== $attempts) {
-            $attempts = (int) $attempts;
-            if ($attempts < 1) {
-                throw new InvalidArgumentException('Maximum number of attempts must be a positive value.');
-            }
+        if (null !== $attempts && $attempts < 1) {
+            throw new InvalidArgumentException('Maximum number of attempts must be a positive value.');
         }
 
         $this->attempts = $attempts;
@@ -273,20 +269,5 @@ class Question
     protected function isAssoc($array)
     {
         return (bool) \count(array_filter(array_keys($array), 'is_string'));
-    }
-
-    public function isTrimmable(): bool
-    {
-        return $this->trimmable;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setTrimmable(bool $trimmable): self
-    {
-        $this->trimmable = $trimmable;
-
-        return $this;
     }
 }

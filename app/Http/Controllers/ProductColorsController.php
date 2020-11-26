@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\product;
 use App\productColors;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductColorsController extends Controller
 {

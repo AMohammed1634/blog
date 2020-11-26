@@ -15,8 +15,8 @@ class AddIsActiveToTableUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->boolean("is_active")->default(false);
-            $table->dateTime('last_activation_date')->default(null);
+            $table->boolean("is_active")->default(false)->nullable();
+            $table->dateTime('last_activation_date')->default(null)->nullable();
         });
     }
 

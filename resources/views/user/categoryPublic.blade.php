@@ -39,9 +39,10 @@
                             <?php
                                 $itemName ="";
                             ?>
+
                             @foreach($category as $item)
                                 <li class="active">
-                                    <a href="http://127.0.0.1:8000/category?page={{$item->id - 7}}"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                                    <a href="/category?page={{$item->id - 7}}"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                                         {{$item->name}}
                                         <?php
                                             $itemName = $item->name;
@@ -49,10 +50,15 @@
                                     </a>
                                 </li>
                             @endforeach
+                                <?php
+                                $asd = 1;
+                                ?>
                             @foreach($Allcategory as $cat)
                                 @if($cat->name != $itemName)
-                                    <li><a href="http://127.0.0.1:8000/category?page={{$cat->id - 7}}">{{$cat->name}}</a></li>
+                                    <li><a href="/category?page={{$asd}}">{{$cat->name}}</a></li>
+
                                 @endif
+                                    <?php $asd++;?>
                             @endforeach
 
                         </ul>
@@ -154,6 +160,7 @@
             <?php
                 $linkClicked = false;
             ?>
+
                 @if(!$linkClicked)
                 @foreach($category as $item)
 
@@ -174,7 +181,9 @@
                                         <div class="product-grid">
 
                                             <!-- Product 1 -->
+
                                             @foreach($item->subCategory as $subCategory)
+                                                @if(count($subCategory->products) > 0)
                                                 {{--GetTheLatestElementInDataBase--}}
                                                 <div class="product-item men" style="display: inline-block;width: 24%">
                                                     <div class="product discount product_filter">
@@ -195,7 +204,7 @@
 
                                                             <h4>
                                                                 <a href="{{route('singleCategory',$subCategory->id)}}" id="subCat-{{$subCategory->id}}" class="subCat">
-                                                                    {{$subCategory->name}} Sub.Cat
+                                                                    {{$subCategory->name}} Brand
                                                                 </a>
                                                             </h4>
 
@@ -204,8 +213,8 @@
                                                                 @if($subCategory->products->last()->discounted_price == 0)
                                                                     ${{$subCategory->products->last()->price}}
                                                                 @else
-                                                                    ${{$subCategory->products->last()->price}}
-                                                                    <span>${{$subCategory->products->last()->discounted_price}}</span>
+                                                                    ${{$subCategory->products->last()->discounted_price}}
+                                                                    <span>${{$subCategory->products->last()->price}}</span>
                                                                 @endif
 
                                                             </div>
@@ -224,6 +233,55 @@
                                                         @endif
                                                     </div>
                                                 </div>
+                                                @else
+                                                    @if(auth()->check() && auth()->user()->roles->type == "admin")
+                                                        <div class="product-item men" style="display: inline-block;width: 24%">
+                                                            <div class="product discount product_filter">
+                                                                <div class="product_image">
+                                                                    <img src="/storage/product_images/" alt=""
+                                                                         style="width: 90%;margin: 5%;height: 198px;">
+                                                                </div>
+                                                                <br>
+                                                                <div class="favorite favorite_left"></div>
+{{--                                                                @if($subCategory->products->last()->discounted_price != 0)--}}
+{{--                                                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">--}}
+{{--                                                                        <span>-$ 11--}}
+{{--                                                                            </span>--}}
+{{--                                                                    </div>--}}
+{{--                                                                @endif--}}
+                                                                <div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center">
+                                                                    <span>new</span></div>
+                                                                <div class="product_info">
+
+
+                                                                    <h4>
+                                                                        <a href="#"
+                                                                           id="subCat-{{$subCategory->id}}" class="subCat">
+                                                                            {{$subCategory->name}} Brand
+                                                                        </a>
+                                                                    </h4>
+
+                                                                    <h6 class="product_name">
+                                                                        <a href="#">
+                                                                            Add New Products to this brand
+                                                                        </a>
+                                                                    </h6>
+                                                                    <div class="product_price">
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="red_button add_to_cart_button">
+                                                                    <a href='{{route("products.create_product")}}'
+                                                                       id="user:{{\Illuminate\Support\Facades\Auth::user()->id}},product:Product_id"
+                                                                       class="">
+                                                                        add to cart
+                                                                    </a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endif
                                             @endforeach
 
 
@@ -262,9 +320,9 @@
 
 @section('JSLinks')
 
-    <script src="js/categories_custom.js"></script>
+    <script src="/js/categories_custom.js"></script>
 
-    <script src="js/categoriesFunctions.js"></script>
+    <script src="/js/categoriesFunctions.js"></script>
 @endsection
 
 

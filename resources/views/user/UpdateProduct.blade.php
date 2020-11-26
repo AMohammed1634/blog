@@ -408,7 +408,7 @@
     function storeImageData(imgID,x,y,width,height){
         $.ajax({
             "type":"get",
-            "url":"http://127.0.0.1:8000/updateRow/{{$product->id}}",
+            "url":"/updateRow/{{$product->id}}",
             "data":{
                 "imgID":imgID,
                 "x" :x,
@@ -428,7 +428,7 @@
      */
     $("#btn-save").click(function (){
         $.ajax({
-            "url":"http://127.0.0.1:8000//saveDesign/{{$product->id}}",
+            "url":"/saveDesign/{{$product->id}}",
             "method":"GET",
             "success":function (e) {
                 alert(e);
@@ -461,7 +461,7 @@
         console.log(data);
         $.ajax({
             "type":"get",
-            "url":"http://127.0.0.1:8000/addText/{{$product->id}}",
+            "url":"/addText/{{$product->id}}",
             "data":data,
             "success":function (resopnse) {
                 console.log(resopnse);
@@ -500,7 +500,7 @@
         console.log(data);
         $.ajax({
             "type":"get",
-            "url":"http://127.0.0.1:8000/customization/saveResult/{{$product->id}}",
+            "url":"/customization/saveResult/{{$product->id}}",
             "data":data,
             "success":function (e) {
                 console.log(e);

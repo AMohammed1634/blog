@@ -170,31 +170,38 @@
                             </ul>
                             <ul class="navbar_user">
                                 <li>
-                                    @guest
-                                    <a href="{{ route("login") }}">
+                                    <a href="{{route("search.search_form")}}">
+                                        <i style="font-size: large" class="fa fa-search">
 
-                                        <i class="fab fa-facebook-messenger" style="font-size: 27px;color:blue;
-                                                margin-top: -40px"></i>
+                                        </i>
                                     </a>
-                                    @else
-                                        <a href="{{ route("chats") }}">
+                                </li>
+{{--                                <li>--}}
+{{--                                    @guest--}}
+{{--                                    <a href="{{ route("login") }}">--}}
+
+{{--                                        <i class="fab fa-facebook-messenger" style="font-size: 27px;color:blue;--}}
+{{--                                                margin-top: -40px"></i>--}}
+{{--                                    </a>--}}
+{{--                                    @else--}}
+{{--                                        <a href="{{ route("chats") }}">--}}
                                             <?php
 
-                                            $messages = App\message::where([
-                                                "message_to" => auth()->user()->id,
-                                                "readed" => 0
-                                            ])->get();
+//                                            $messages = App\message::where([
+//                                                "message_to" => auth()->user()->id,
+//                                                "readed" => 0
+//                                            ])->get();
                                             ?>
-                                            <i class="fab fa-facebook-messenger" style="font-size: 27px;color:blue;
-                                                margin-top: -40px"></i>
-                                                @if(count($messages) > 0)
-                                                    <span id="" class="checkout_items" style="top: -27px">
-                                                        {{count($messages)}}
-                                                    </span>
-                                                @endif
-                                        </a>
-                                    @endguest
-                                </li>
+{{--                                            <i class="fab fa-facebook-messenger" style="font-size: 27px;color:blue;--}}
+{{--                                                margin-top: -40px"></i>--}}
+{{--                                                @if(count($messages) > 0)--}}
+{{--                                                    <span id="" class="checkout_items" style="top: -27px">--}}
+{{--                                                        {{count($messages)}}--}}
+{{--                                                    </span>--}}
+{{--                                                @endif--}}
+{{--                                        </a>--}}
+{{--                                    @endguest--}}
+{{--                                </li>--}}
                                 @guest
                                     <li><a href="{{route('login')}}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                                 @else

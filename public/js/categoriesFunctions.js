@@ -23,7 +23,7 @@ function callAPIForSubCategory( id){
             BuildHTMLContent(json);
         }
     };
-    xhttp.open("GET", "http://127.0.0.1:8000/category/"+id, true);
+    xhttp.open("GET", "/category/"+id, true);
     xhttp.send();
 }
 var pro;
@@ -38,7 +38,7 @@ function callAPIForProductBelongsToSpecificCategory( id){
             console.log(json);
         }
     };
-    xhttp.open("GET", "http://127.0.0.1:8000/category/"+id+"/products", true);
+    xhttp.open("GET", "/category/"+id+"/products", true);
     xhttp.send();
 }
 function BuildHTMLContent(json) {
@@ -105,14 +105,14 @@ function BuildHTMLContent(json) {
                     '\n' +
                     ''+
                     '\n' +
-                    '<h5 class="product_name"><a href="http://127.0.0.1:8000/products/'+products[i].id+'">'+products[i].name+'</a></h5>\n' +
+                    '<h5 class="product_name"><a href="/products/'+products[i].id+'">'+products[i].name+'</a></h5>\n' +
                     '<div class="product_price">\n$' +
                     ((products[i].discounted_price ==0) ? (products[i].price):products[i].discounted_price +"<span>$"+products[i].price+"</span>" )+
                     '\n' +
                     '                                                            </div>\n' +
                     '                                                        </div>'+
                     '</div>'+
-                    '<div class="red_button add_to_cart_button"><a class="addToChart" href="'+(valid==true ? "http://127.0.0.1:8000/products/"+products[i].id+"/addToChart/"+userID:'asd1')  +'">add to cart</a></div>'+
+                    '<div class="red_button add_to_cart_button"><a class="addToChart" href="'+(valid==true ? "/products/"+products[i].id+"/addToChart/"+userID:'asd1')  +'">add to cart</a></div>'+
                     '</div>';
             }
             root.innerHTML+= strStart + str + strEnd;
@@ -153,7 +153,7 @@ function BuildHTMLContent(json) {
             }
         }
     };
-    xhttp.open("GET", "http://127.0.0.1:8000/category/"+json.id+"/products", true);
+    xhttp.open("GET", "/category/"+json.id+"/products", true);
     xhttp.send();
 
 }
@@ -186,7 +186,7 @@ filter.onclick = function (ev) {
                 console.log(json);
             }
         };
-        xhttp.open("GET", "http://127.0.0.1:8000/category/search/price/"+document.getElementById('categoryID').textContent+"/"+max, true);
+        xhttp.open("GET", "/category/search/price/"+document.getElementById('categoryID').textContent+"/"+max, true);
         xhttp.send();
     }
     else{
@@ -231,7 +231,7 @@ function callAPIAddToChart(userID,productID){
 
         }
     };
-    xhttp.open("GET", 'http://127.0.0.1:8000/products/'+productID+'/addToChart/'+userID, true);
+    xhttp.open("GET", '/products/'+productID+'/addToChart/'+userID, true);
     xhttp.send();
 }
 

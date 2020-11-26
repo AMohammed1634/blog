@@ -194,19 +194,13 @@ desired effect
                 <li @yield('dashboard')><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                 <li @yield('FPTree')><a href="{{route('FPTree')}}"><i class="fa fa-link"></i> <span>See related Products <br>(FPTree)</span></a></li>
                 <li @yield('messages')><a href="{{route('chats')}}"><i class="fa fa-link"></i> <span>Messages</span></a></li>
-                <li class="treeview ">
+                <li><a href="{{route("categories.create_category")}}"><i class="fa fa-link"></i>Create Category</a></li>
+                <li><a href="{{route("categories.create_brand")}}"><i class="fa fa-link"></i>Create Brand</a></li>
+                <li><a href="{{route("categories.browse_brand")}}"><i class="fa fa-link"></i>Browse Brands</a></li>
+                <li><a href="{{route("products.create_product")}}"><i class="fa fa-link"></i>Create Product</a></li>
+                <li><a href="{{route("products.browse_products")}}"><i class="fa fa-link"></i>Browse Products</a></li>
 
 
-                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Link in level 2</a></li>
-                        <li><a href="#">Link in level 2</a></li>
-                    </ul>
-                </li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>

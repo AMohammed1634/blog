@@ -15,7 +15,7 @@ class AddReadedToMessagesTable extends Migration
     {
         Schema::table('messages', function (Blueprint $table) {
             //
-            $table->boolean("readed")->default(false);
+            $table->boolean("readed")->default(false)->nullable();
         });
     }
 

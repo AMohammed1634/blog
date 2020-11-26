@@ -21,6 +21,7 @@ Route::get('/tes',function (){
     return view('user.categoryPublic');
 });
 
+Route::get('/   ','CategoryController@viewCategory')->name('h');
 Route::get('/category','CategoryController@viewCategory')->name('categories');
 
 /**
@@ -183,3 +184,40 @@ Route::get("/AMassage","MessageController@AMassage");
  Route::get("/chats/users",function(){
 
  });
+
+
+Route::get("/admin/categories/create_category","CategoryController@CreateCategory")
+     ->name("categories.create_category")->middleware("admin");
+
+Route::post("/admin/categories/create_category","CategoryController@SaveCategory")
+     ->name("categories.save_category")->middleware("admin");
+Route::get("/admin/categories/create_brand","CategoryController@CreateBrand")
+    ->name("categories.create_brand")->middleware("admin");
+Route::post("/admin/categories/create_brand","CategoryController@SaveBrand")
+    ->name("categories.save_brand")->middleware("admin");
+Route::get("/admin/categories/browse_brands","CategoryController@BrowseBrand")
+    ->name("categories.browse_brand")->middleware("admin");
+
+
+Route::get("/admin/products/create_product","ProductController@CreateProduct")
+    ->name("products.create_product")->middleware("admin");
+Route::post("/admin/products/create_product","ProductController@SaveProduct")
+    ->name("products.save_product")->middleware("admin");
+Route::get("/admin/products/browse_products","ProductController@BrowseProducts")
+    ->name("products.browse_products")->middleware("admin");
+Route::get("/admin/products/{product}/add_color","ProductColorsController@addColor")
+    ->name("products.add_color")->middleware("admin");
+Route::get("/admin/products/delete_product/{product}","ProductController@deleteProduct")
+    ->name("products.delete_product")->middleware("admin");
+Route::post("/admin/products/{product}/add_color","ProductColorsController@SaveColor")
+    ->name("products.save_color")->middleware("admin");
+//update product
+Route::get("/admin/products/update_product/{product}","ProductController@updateProduct")
+    ->name("products.update_product")->middleware("admin");
+Route::get("/admin/products/save_update_product/{product}","ProductController@saveUpdateProduct")
+    ->name("products.save_update_product")->middleware("admin");
+
+Route::get("/search_form","SearchController@SearchForm")
+    ->name("search.search_form");
+Route::post("/search_form","SearchController@SearchResult")
+    ->name("search.search_result");

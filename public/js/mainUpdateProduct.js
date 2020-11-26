@@ -181,7 +181,7 @@ $("#bold").click((e)=>{
 //         color = $("#color").val();
 //     $.ajax({
 //         "type":"get",
-//         "url":"http://127.0.0.1:8000/addText/{{$product->id}}",
+//         "url":"/addText/{{$product->id}}",
 //         "data":{
 //             "txt":txt,
 //             "color":color,

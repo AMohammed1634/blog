@@ -73,7 +73,8 @@
                         </div>
                         <div class="col-lg-9 image_col order-lg-2 order-1">
                             <div class="single_product_image">
-                                <div id="pro" class="single_product_image_background" style="background-image:url('/storage/product_images/{{$product->img}}')"></div>
+                                <div id="pro" class="single_product_image_background"
+                                     style="background-image:url('/storage/product_images/{{$product->img}}')"></div>
                             </div>
                         </div>
                     </div>
@@ -124,6 +125,7 @@
 
                             @endif
                         </select>
+
                     </div>
                     <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                         <span>Quantity:</span>
@@ -184,11 +186,11 @@
                                  padding: 10px 28px">
                                 <div class="carousel-inner" style="">
                                     <div class="carousel-item active" data-interval="10000">
-                                        
 
-                                        
-                                        Scroll to see it 
-                                        
+
+
+                                        Scroll to see it
+
                                     </div>
 
 
@@ -461,7 +463,7 @@
             @guest
                 alert("Login First")
             @else
-                let url = "http://127.0.0.1:8000/products/{{$product->id}}/addToChart/{{Auth::user()->id}}",
+                let url = "/products/{{$product->id}}/addToChart/{{Auth::user()->id}}",
                     method = "GET",
                     data = {};
                 callAPI(url,method,data);

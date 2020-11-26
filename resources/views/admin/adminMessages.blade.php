@@ -334,7 +334,7 @@ Messages
         // console.log("key press..")
         $.ajax({
             "type":"get",
-            "url":"http://127.0.0.1:8000/admin/writing/"+currentUser+"/"+"{{auth()->user()->id}}",
+            "url":"/admin/writing/"+currentUser+"/"+"{{auth()->user()->id}}",
             "success":function (response) {
                 console.log(response);
             }
@@ -350,7 +350,7 @@ Messages
         // }
         $.ajax({
             "type":"get",
-            "url":"http://127.0.0.1:8000/admin/isWriting/"+"{{auth()->user()->id}}",
+            "url":"/admin/isWriting/"+"{{auth()->user()->id}}",
             "success":function (response) {
                 response = JSON.parse(response)
                 console.log(response);
@@ -382,7 +382,7 @@ Messages
         // console.log("ASDSetInterv.......");
         $.ajax({
             "type":"get",
-            "url":"http://127.0.0.1:8000/admin/writingFalse/"+currentUser+"/"+"{{auth()->user()->id}}",
+            "url":"/admin/writingFalse/"+currentUser+"/"+"{{auth()->user()->id}}",
             "success":function (response) {
                 console.log(response);
             }
@@ -469,7 +469,7 @@ Messages
                     if(currentUser == null)
                         return;
                     console.log(event);
-                    this.$http.get("http://127.0.0.1:8000/admin/writing/"+currentUser+"/{{auth()->user()->id}}").then(
+                    this.$http.get("/admin/writing/"+currentUser+"/{{auth()->user()->id}}").then(
                         response =>{
                             console.log(response.body)
                         },response=>{

@@ -7,5 +7,17 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/blog</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="database.sqlite" uuid="36c8d395-87c0-44f9-acee-599d454151e9">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:database.sqlite</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="database.sqlite [2]" uuid="18ed8dd1-afa0-4fa6-9cba-17d6dc16c474">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/database/database.sqlite</jdbc-url>
+    </data-source>
   </component>
 </project>

@@ -14,7 +14,7 @@ Dashboard
 @endsection
 
 @section('body')
-    Ahmed
+
     <section class="content">
         <!-- Info boxes -->
         <div class="row">
